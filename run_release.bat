@@ -1,0 +1,1 @@
+.\Release\FNES_emulator.exe

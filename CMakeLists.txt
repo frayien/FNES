@@ -38,7 +38,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   json
   GIT_REPOSITORY "https://github.com/nlohmann/json.git"
-  GIT_TAG        v3.10.4
+  GIT_TAG        v3.10.5
 )
 
 ### Dependency population ###

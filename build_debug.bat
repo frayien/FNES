@@ -4,5 +4,5 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Debug ..
 cd ..
 cmake --build build --config Debug
-.\FNES_emulator.exe
+.\Debug\FNES_emulator.exe
 )

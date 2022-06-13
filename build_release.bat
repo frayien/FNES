@@ -4,5 +4,5 @@ cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 cd ..
 cmake --build build --config Release
-.\FNES_emulator.exe
+.\Release\FNES_emulator.exe
 )

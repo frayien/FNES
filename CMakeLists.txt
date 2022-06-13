@@ -43,8 +43,9 @@ FetchContent_Declare(
 
 ### Dependency population ###
 
-# sfml
 set(BUILD_SHARED_LIBS OFF)
+
+# sfml
 set(SFML_BUILD_EXAMPLES OFF)
 set(SFML_BUILD_DOC OFF)
 
@@ -53,24 +54,12 @@ set(SFML_BUILD_NETWORK OFF)
 set(SFML_BUILD_AUDIO ON)
 set(SFML_BUILD_GRAPHICS ON)
 set(SFML_BUILD_WINDOW ON)
-
-FetchContent_GetProperties(sfml)
-if(NOT sfml_POPULATED)
-  FetchContent_Populate(sfml)
-  add_subdirectory(${sfml_SOURCE_DIR})
-endif()
 # !sfml
+
+FetchContent_MakeAvailable(sfml json)
 
 # sfml audio cannot build since c++17 due to removed auto_ptr (fixed in sfml 2.6.x)
 # set_target_properties(sfml-audio PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
-
-# nlohman json
-FetchContent_GetProperties(json)
-if(NOT json_POPULATED)
-  FetchContent_Populate(json)
-  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
-endif()
-# !nlohman json
 
 ### Project headers ###
 include_directories(include)
@@ -89,7 +78,15 @@ target_link_libraries(
   nlohmann_json::nlohmann_json
 )
 
-# add_custom_command(TARGET FNES_emulator POST_BUILD
-#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:FNES_emulator> $<TARGET_FILE_DIR:FNES_emulator>
-#   COMMAND_EXPAND_LISTS
-# )
+if (WIN32 AND BUILD_SHARED_LIBS)
+  add_custom_command(TARGET FNES_emulator POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:FNES_emulator> $<TARGET_FILE_DIR:FNES_emulator>
+    COMMAND_EXPAND_LISTS
+  )
+endif()
+
+if (WIN32 AND SFML_BUILD_AUDIO)
+  add_custom_command(TARGET FNES_emulator POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/sfml-src/extlibs/bin/x64/openal32.dll $<TARGET_FILE_DIR:FNES_emulator>
+  )
+endif()

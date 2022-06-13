@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14.0)
+cmake_minimum_required(VERSION 3.21.0)
 include(FetchContent)
 
 project(FNES_emulator VERSION 0.1.0)
@@ -25,25 +25,21 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../")
-
-### Project headers ###
-include_directories(include)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
 
 ### Dependency declaration ###
 
 FetchContent_Declare(
-    sfml
-    GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-    GIT_TAG        2.5.1
+  sfml
+  GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+  GIT_TAG        2.6.x
 )
 
 FetchContent_Declare(
-    json
-    GIT_REPOSITORY "https://github.com/nlohmann/json.git"
-    GIT_TAG        v3.10.4
+  json
+  GIT_REPOSITORY "https://github.com/nlohmann/json.git"
+  GIT_TAG        v3.10.4
 )
-
 
 ### Dependency population ###
 
@@ -60,13 +56,13 @@ set(SFML_BUILD_WINDOW ON)
 
 FetchContent_GetProperties(sfml)
 if(NOT sfml_POPULATED)
-    FetchContent_Populate(sfml)
-    add_subdirectory(${sfml_SOURCE_DIR})
+  FetchContent_Populate(sfml)
+  add_subdirectory(${sfml_SOURCE_DIR})
 endif()
 # !sfml
 
-# sfml audio cannot build since c++17 due to removed auto_ptr
-set_target_properties(sfml-audio PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
+# sfml audio cannot build since c++17 due to removed auto_ptr (fixed in sfml 2.6.x)
+# set_target_properties(sfml-audio PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
 
 # nlohman json
 FetchContent_GetProperties(json)
@@ -76,16 +72,24 @@ if(NOT json_POPULATED)
 endif()
 # !nlohman json
 
+### Project headers ###
+include_directories(include)
+
 ### Project sources ###
 file(GLOB_RECURSE SRCS ./src/*)
 
 add_executable(FNES_emulator ${SRCS})
 
 target_link_libraries(
-    FNES_emulator
-    sfml-graphics
-    sfml-window
-    sfml-system
-    sfml-audio
-    nlohmann_json::nlohmann_json
+  FNES_emulator
+  sfml-graphics
+  sfml-window
+  sfml-system
+  sfml-audio
+  nlohmann_json::nlohmann_json
 )
+
+# add_custom_command(TARGET FNES_emulator POST_BUILD
+#   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:FNES_emulator> $<TARGET_FILE_DIR:FNES_emulator>
+#   COMMAND_EXPAND_LISTS
+# )

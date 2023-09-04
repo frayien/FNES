@@ -22,7 +22,7 @@ else(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS_RELEASE "/O2")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
@@ -32,13 +32,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
 FetchContent_Declare(
   sfml
   GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-  GIT_TAG        2.6.x
+  GIT_TAG        2.6.0
 )
 
 FetchContent_Declare(
   json
   GIT_REPOSITORY "https://github.com/nlohmann/json.git"
-  GIT_TAG        v3.10.5
+  GIT_TAG        v3.11.2
 )
 
 ### Dependency population ###
@@ -58,19 +58,16 @@ set(SFML_BUILD_WINDOW ON)
 
 FetchContent_MakeAvailable(sfml json)
 
-# sfml audio cannot build since c++17 due to removed auto_ptr (fixed in sfml 2.6.x)
-# set_target_properties(sfml-audio PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED YES CXX_EXTENSIONS NO)
-
 ### Project headers ###
 include_directories(include)
 
 ### Project sources ###
-file(GLOB_RECURSE SRCS ./src/*)
+file(GLOB_RECURSE SRCS CONFIGURE_DEPENDS LIST_DIRECTORIES OFF ./src/*)
 
-add_executable(FNES_emulator ${SRCS})
+add_executable(${PROJECT_NAME} ${SRCS})
 
 target_link_libraries(
-  FNES_emulator
+  ${PROJECT_NAME}
   sfml-graphics
   sfml-window
   sfml-system
@@ -79,14 +76,14 @@ target_link_libraries(
 )
 
 if (WIN32 AND BUILD_SHARED_LIBS)
-  add_custom_command(TARGET FNES_emulator POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:FNES_emulator> $<TARGET_FILE_DIR:FNES_emulator>
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:${PROJECT_NAME}> $<TARGET_FILE_DIR:${PROJECT_NAME}>
     COMMAND_EXPAND_LISTS
   )
 endif()
 
 if (WIN32 AND SFML_BUILD_AUDIO)
-  add_custom_command(TARGET FNES_emulator POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/sfml-src/extlibs/bin/x64/openal32.dll $<TARGET_FILE_DIR:FNES_emulator>
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${FETCHCONTENT_BASE_DIR}/sfml-src/extlibs/bin/x64/openal32.dll $<TARGET_FILE_DIR:${PROJECT_NAME}>
   )
 endif()

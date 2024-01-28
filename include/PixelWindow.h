@@ -16,6 +16,7 @@
 #include <array>
 #include <set>
 #include <string>
+#include <atomic>
 #include <SFML/Graphics.hpp>
 
 #include "PixelCanvas.h"
@@ -31,6 +32,7 @@ public:
 
     void setBackgroundColor(sf::Color const& color) { background_color = color; }
 
+    virtual void init() = 0;
     virtual void update() = 0;
 
     bool wasPressed(sf::Keyboard::Key key);
@@ -46,6 +48,8 @@ private:
 
     std::set<sf::Keyboard::Key> pressed_keys;
     sf::Mutex mutex_pressed_keys;
+
+    std::atomic_bool m_stop_interupt;
 
     sf::RenderWindow window;
 };

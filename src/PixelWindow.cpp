@@ -74,12 +74,13 @@ void PixelWindow::run()
                 }
             case sf::Event::Closed:
                 m_stop_interupt.store(true);
-                break;
+                goto label_break;
             default:
                 break;
             }
         }
     }
+    label_break:
     render_thread.wait();
 }
 
@@ -91,7 +92,7 @@ bool PixelWindow::wasPressed(sf::Keyboard::Key key)
 
 void PixelWindow::drawCanvas(PixelCanvas& canvas, uint16_t x, uint16_t y, float zoom)
 {
-    sf::Texture tex = canvas.getTexture();
+    const sf::Texture & tex = canvas.getTexture();
     sf::Sprite sprite(tex);
     sprite.setPosition(x,y);
     sprite.setScale(zoom,zoom);

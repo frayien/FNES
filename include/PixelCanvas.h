@@ -46,7 +46,14 @@ public:
     { 
         render_texture->clear(sf::Color(0x00000000));
         render_texture->draw(vertex_array);
+        render_texture->display();
         return render_texture->getTexture();
+    }
+
+    inline void setActive(bool value)
+    {
+        if(render_texture)
+            render_texture->setActive(value);
     }
 
     static void initFont();

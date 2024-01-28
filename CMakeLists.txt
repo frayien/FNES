@@ -13,8 +13,8 @@ endif()
 if(CMAKE_COMPILER_IS_GNUCXX)
   message(STATUS "GCC detected, adding compile flags")
   set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-  set(CMAKE_CXX_FLAGS_DEBUG "-g")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+  set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -g1")
 else(CMAKE_COMPILER_IS_GNUCXX)
   message(STATUS "MSVC detected, adding compile flags")
   set(CMAKE_CXX_FLAGS "/EHsc")
@@ -32,13 +32,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
 FetchContent_Declare(
   sfml
   GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-  GIT_TAG        2.6.0
+  GIT_TAG        2.6.1
 )
 
 FetchContent_Declare(
   json
   GIT_REPOSITORY "https://github.com/nlohmann/json.git"
-  GIT_TAG        v3.11.2
+  GIT_TAG        v3.11.3
 )
 
 ### Dependency population ###

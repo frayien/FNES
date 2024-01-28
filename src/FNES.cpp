@@ -23,10 +23,19 @@ FNES::FNES() :
     decompiled = nes.decompile(0x0000, 0xFFFF);
 
     nes.cpu.reset();
+
+    gui.setActive(false);
+    nes.ppu.setActive(false);
 }
 
 FNES::~FNES()
 {
+}
+
+void FNES::init()
+{
+    gui.setActive(true);
+    nes.ppu.setActive(true);
 }
 
 void FNES::update()

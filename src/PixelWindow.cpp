@@ -3,6 +3,7 @@
 PixelWindow::PixelWindow(uint16_t x, uint16_t y, sf::String const& title) : 
     size_x(x), size_y(y),
     render_thread(&PixelWindow::renderThread, this),
+    m_stop_interupt(false),
     window(sf::VideoMode(size_x, size_y), title)
 {
     window.setFramerateLimit(60);
@@ -16,6 +17,8 @@ PixelWindow::~PixelWindow()
 void PixelWindow::renderThread()
 {
     window.setActive(true);
+
+    init();
 
     sf::Clock tps_clock;
     float tps = 0;
@@ -41,6 +44,11 @@ void PixelWindow::renderThread()
             window.setTitle("FNES (" + std::to_string(1.0f / tps * frame_count) + " fps)");
             frame_count = 0;
         }
+
+        if(m_stop_interupt.exchange(false))
+        {
+            window.close();
+        }
     }
 }
 
@@ -65,7 +73,7 @@ void PixelWindow::run()
                     break;
                 }
             case sf::Event::Closed:
-                window.close();
+                m_stop_interupt.store(true);
                 break;
             default:
                 break;

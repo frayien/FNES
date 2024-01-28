@@ -15,7 +15,7 @@ PixelCanvas::PixelCanvas(uint16_t _x, uint16_t _y) :
     {
         for(uint16_t x = 0; x<size_x; ++x)
         {
-            vertex_array[y*size_x+x].position = sf::Vector2f(x, size_y-y);
+            vertex_array[y*size_x+x].position = sf::Vector2f(x, y);
             vertex_array[y*size_x+x].color = sf::Color(0x000000FF);
         }
     }

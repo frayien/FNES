@@ -58,7 +58,7 @@ set(SFML_BUILD_WINDOW ON)
 
 FetchContent_MakeAvailable(sfml json)
 
-if(0)
+if(1)
 
 ### Project headers ###
 include_directories(include)

@@ -58,19 +58,11 @@ set(SFML_BUILD_WINDOW ON)
 
 FetchContent_MakeAvailable(sfml json)
 
-if(1)
-
 ### Project headers ###
 include_directories(include)
 
 ### Project sources ###
 file(GLOB_RECURSE SRCS CONFIGURE_DEPENDS LIST_DIRECTORIES OFF ./src/*)
-
-else()
-
-set(SRCS ${CMAKE_CURRENT_LIST_DIR}/test.cpp)
-
-endif()
 
 add_executable(${PROJECT_NAME} ${SRCS})
 

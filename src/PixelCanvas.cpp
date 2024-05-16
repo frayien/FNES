@@ -5,16 +5,8 @@ TileSet PixelCanvas::font;
 PixelCanvas::PixelCanvas(uint16_t _x, uint16_t _y) :
     size_x(_x), size_y(_y)
 {
-    image.create(size_x, size_y);
+    image.create(size_x, size_y, sf::Color(0x000000FF));
     texture.create(size_x, size_y);
-
-    for(uint16_t y = 0; y<size_y; ++y)
-    {
-        for(uint16_t x = 0; x<size_x; ++x)
-        {
-            image.setPixel(x, y, sf::Color(0x000000FF));
-        }
-    }
 }
 
 PixelCanvas::~PixelCanvas()

@@ -70,6 +70,7 @@ void PixelWindow::run()
                     mutex_pressed_keys.unlock();
                     break;
                 }
+                [[fallthrough]];
             case sf::Event::Closed:
                 m_stop_interupt.store(true);
                 goto label_break;

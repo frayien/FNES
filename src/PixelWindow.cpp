@@ -18,8 +18,6 @@ void PixelWindow::renderThread()
 {
     window.setActive(true);
 
-    init();
-
     sf::Clock tps_clock;
     float tps = 0;
 

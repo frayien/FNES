@@ -29,10 +29,6 @@ FNES::~FNES()
 {
 }
 
-void FNES::init()
-{
-}
-
 void FNES::update()
 {
     #ifdef FNES_DUMP

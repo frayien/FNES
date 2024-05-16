@@ -32,7 +32,6 @@ public:
 
     void setBackgroundColor(sf::Color const& color) { background_color = color; }
 
-    virtual void init() = 0;
     virtual void update() = 0;
 
     bool wasPressed(sf::Keyboard::Key key);

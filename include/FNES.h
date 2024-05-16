@@ -35,7 +35,6 @@ public:
     void drawCode(uint16_t x, uint16_t y);
     void drawSprite(uint16_t x, uint16_t y, int s, int e);
 
-    virtual void init() override;
     virtual void update() override;
 
     bool emulation_running = false;

@@ -45,15 +45,6 @@ public:
     PixelCanvas& getNametable(uint8_t i);
     PixelCanvas& getPatternTable(uint8_t i, uint8_t palette);
 
-    inline void setActive(bool value)
-    {
-        screen.setActive(value);
-        screen_nametable[0].setActive(value);
-        screen_nametable[1].setActive(value);
-        screen_pattern_table[0].setActive(value);
-        screen_pattern_table[1].setActive(value);
-    }
-
     bool frame_complete = false;
 
     // registers

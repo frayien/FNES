@@ -3,20 +3,16 @@
 TileSet PixelCanvas::font;
 
 PixelCanvas::PixelCanvas(uint16_t _x, uint16_t _y) :
-    size_x(_x), size_y(_y),
-    vertex_array(sf::Points)
+    size_x(_x), size_y(_y)
 {
-    render_texture = std::make_unique<sf::RenderTexture>();
-    render_texture->create(size_x, size_y);
-
-    vertex_array.resize(size_x*size_y);
+    image.create(size_x, size_y);
+    texture.create(size_x, size_y);
 
     for(uint16_t y = 0; y<size_y; ++y)
     {
         for(uint16_t x = 0; x<size_x; ++x)
         {
-            vertex_array[y*size_x+x].position = sf::Vector2f(x, y);
-            vertex_array[y*size_x+x].color = sf::Color(0x000000FF);
+            image.setPixel(x, y, sf::Color(0x000000FF));
         }
     }
 }

@@ -27,7 +27,7 @@ public:
     inline void setPixel(uint16_t x, uint16_t y, uint32_t color)
     {
         if(x < size_x && y < size_y)
-            vertex_array[y*size_x+x].color = sf::Color(color);
+            image.setPixel(x, y, sf::Color(color));
     }
 
     void clear(uint32_t color = 0x000000FF);
@@ -44,16 +44,8 @@ public:
 
     inline const sf::Texture& getTexture() 
     { 
-        render_texture->clear(sf::Color(0x00000000));
-        render_texture->draw(vertex_array);
-        render_texture->display();
-        return render_texture->getTexture();
-    }
-
-    inline void setActive(bool value)
-    {
-        if(render_texture)
-            render_texture->setActive(value);
+        texture.update(image);
+        return texture;
     }
 
     static void initFont();
@@ -62,8 +54,8 @@ private:
     uint16_t size_x;
     uint16_t size_y;
 
-    sf::VertexArray vertex_array;
-    std::unique_ptr<sf::RenderTexture> render_texture;
+    sf::Image image;
+    sf::Texture texture;
 };
 
 #endif // FNES_PIXELCANVAS

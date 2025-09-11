@@ -1,9 +1,28 @@
 #include "Mapper_000.h"
 #include "Mapper.h"
+#include "Cartridge.h"
 
-Mapper_000::Mapper_000(uint8_t _prg_count, uint8_t _chr_count) :  Mapper(_prg_count,_chr_count)
+#include <stdexcept>
+
+Mapper_000::Mapper_000(const Cartridge & cartridge)
 {
-    cpu_prg_mode_mask = prg_count > 1 ? 0x7FFF : 0x3FFF;
+    switch(cartridge.prg_rom_size)
+    {
+        case 0x4000: cpu_prg_rom_mask = 0x3FFF; break;
+        case 0x8000: cpu_prg_rom_mask = 0x7FFF; break;
+        default: throw std::invalid_argument("Invalid PRG-ROM size");
+    }
+
+    switch(cartridge.prg_ram_size)
+    {
+        case 0x000: cpu_prg_ram_mask = 0x000; break;
+        case 0x400: cpu_prg_ram_mask = 0x3FF; break;
+        case 0x800: cpu_prg_ram_mask = 0x7FF; break;
+        default: throw std::invalid_argument("Invalid PRG-RAM size");
+    }
+
+    if(cartridge.chr_rom_size != 0x2000)
+    { throw std::invalid_argument("Invalid CHR-ROM size"); }
 }
 
 Mapper_000::~Mapper_000()
@@ -13,9 +32,15 @@ Mapper_000::~Mapper_000()
 
 bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x8000 && addr <= 0xFFFF)
+    if(addr >= 0x6000 && addr <= 0x7FFF && cpu_prg_ram_mask != 0)
     {
-        mapper_addr = addr & cpu_prg_mode_mask;
+        mapper_addr = addr & cpu_prg_ram_mask;
+        memory_kind = MemoryKind::RAM;
+        return true;
+    }
+    else if(addr >= 0x8000 && addr <= 0xFFFF)
+    {
+        mapper_addr = addr & cpu_prg_rom_mask;
         memory_kind = MemoryKind::ROM;
         return true;
     }
@@ -23,9 +48,15 @@ bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& me
 }
 bool Mapper_000::cpuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x8000 && addr <= 0xFFFF)
+    if(addr >= 0x6000 && addr <= 0x7FFF && cpu_prg_ram_mask != 0)
     {
-        mapper_addr = addr & cpu_prg_mode_mask;
+        mapper_addr = addr & cpu_prg_ram_mask;
+        memory_kind = MemoryKind::RAM;
+        return true;
+    }
+    else if(addr >= 0x8000 && addr <= 0xFFFF)
+    {
+        mapper_addr = addr & cpu_prg_rom_mask;
         memory_kind = MemoryKind::ROM;
         return true;
     }

@@ -2,8 +2,6 @@
 //#include "DemoCpu6502.h"
 
 #include <iostream>
-#include <cstdint>
-#include <string>
 #include <iostream>
 
 int main() 

@@ -1,9 +1,10 @@
 #include "Mapper_001.h"
 #include "Mapper.h"
+#include "Cartridge.h"
 
-Mapper_001::Mapper_001(uint8_t _prg_count, uint8_t _chr_count) :  Mapper(_prg_count,_chr_count)
+Mapper_001::Mapper_001(const Cartridge & cartridge)
 {
-    
+    std::abort();
 }
 
 Mapper_001::~Mapper_001()

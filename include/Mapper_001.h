@@ -6,7 +6,7 @@
 class Mapper_001 : public Mapper
 {
 public:
-    Mapper_001(uint8_t _prg_count, uint8_t _chr_count);
+    Mapper_001(const Cartridge & cartridge);
     virtual ~Mapper_001();
 
     virtual bool cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) override;

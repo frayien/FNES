@@ -6,7 +6,7 @@
 class Mapper_000 : public Mapper
 {
 public:
-    Mapper_000(uint8_t _prg_count, uint8_t _chr_count);
+    Mapper_000(const Cartridge & cartridge);
     virtual ~Mapper_000();
 
     virtual bool cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) override;
@@ -16,7 +16,8 @@ public:
     virtual bool ppuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) override;
 
 private:
-    uint16_t cpu_prg_mode_mask;
+    uint16_t cpu_prg_rom_mask;
+    uint16_t cpu_prg_ram_mask;
 };
 
 #endif // FNES_MAPPER_000

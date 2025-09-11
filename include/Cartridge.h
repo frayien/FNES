@@ -15,13 +15,9 @@
 
 #include <cstdint>
 #include <string>
-#include <fstream>
 #include <memory>
 
-#include <iostream>
-
 #include "Mapper.h"
-#include "Mapper_000.h"
 
 class Cartridge
 {
@@ -39,8 +35,19 @@ public:
     std::shared_ptr<Mapper> mapper;
 
     std::unique_ptr<uint8_t[]> trainer;
-    std::unique_ptr<uint8_t[]> prg;
-    std::unique_ptr<uint8_t[]> chr;
+    std::unique_ptr<uint8_t[]> prg_rom;
+    std::unique_ptr<uint8_t[]> prg_ram;
+    std::unique_ptr<uint8_t[]> prg_nvram;
+    std::unique_ptr<uint8_t[]> chr_rom;
+    std::unique_ptr<uint8_t[]> chr_ram;
+    std::unique_ptr<uint8_t[]> chr_nvram;
+
+    uint32_t prg_rom_size;
+    uint32_t prg_ram_size;
+    uint32_t prg_nvram_size;
+    uint32_t chr_rom_size;
+    uint32_t chr_ram_size;
+    uint32_t chr_nvram_size;
 
     enum MIRROR
     {

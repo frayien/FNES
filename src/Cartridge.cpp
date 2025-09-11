@@ -1,5 +1,11 @@
 #include "Cartridge.h"
 
+#include "Mapper.h"
+#include "Mapper_000.h"
+
+#include <iostream>
+#include <fstream>
+
 Cartridge::Cartridge(std::string const& path)
 {
     std::ifstream stream;
@@ -50,6 +56,20 @@ Cartridge::Cartridge(std::string const& path)
         // flag 15
         default_expansion_device = header[15] & 0b0011'1111;
 
+        // init buffers
+        prg_rom_size = PRG_SIZE*prg_count;
+        chr_rom_size = CHR_SIZE*chr_count;
+        prg_ram_size   = prg_ram_shift_count          == 0 ? 0 : 64 << prg_ram_shift_count;
+        chr_ram_size   = chr_ram_shift_count          == 0 ? 0 : 64 << chr_ram_shift_count;
+        prg_nvram_size = prg_nvram_eeprom_shift_count == 0 ? 0 : 64 << prg_nvram_eeprom_shift_count;
+        chr_nvram_size = chr_ram_shift_count          == 0 ? 0 : 64 << chr_nvram_shift_count;
+
+        prg_rom = std::make_unique<uint8_t[]>(prg_rom_size);
+        chr_rom = std::make_unique<uint8_t[]>(chr_rom_size);
+        prg_ram = std::make_unique<uint8_t[]>(prg_ram_size);
+        chr_ram = std::make_unique<uint8_t[]>(chr_ram_size);
+        prg_nvram = std::make_unique<uint8_t[]>(prg_nvram_size);
+        chr_nvram        = std::make_unique<uint8_t[]>(chr_nvram_size);
 
         // load trainer
         if(has_trainer)
@@ -57,20 +77,22 @@ Cartridge::Cartridge(std::string const& path)
             trainer = std::make_unique<uint8_t[]>(TRAINER_SIZE);
             stream.read((char*) trainer.get(), TRAINER_SIZE);
         }
-        // load prg
-        prg = std::make_unique<uint8_t[]>(PRG_SIZE*prg_count);
-        stream.read((char*) prg.get(), PRG_SIZE*prg_count);
-        // load chr
-        chr = std::make_unique<uint8_t[]>(CHR_SIZE*chr_count);
-        stream.read((char*) chr.get(), CHR_SIZE*chr_count);
+        // load prg-rom
+        stream.read((char*) prg_rom.get(), prg_rom_size);
+        // load chr-rom
+        stream.read((char*) chr_rom.get(), chr_rom_size);
 
         stream.close();
 
         std::cout << "INES ? " << is_iNES_format << std::endl;
         std::cout << "NES2.0 ? " << is_NES20_format << std::endl;
         std::cout << "Mapper " << mapper_number << std::endl;
-        std::cout << "PRG " << (int) prg_count << std::endl;
-        std::cout << "CHR " << (int) chr_count << std::endl;
+        std::cout << "PRG-ROM " << prg_rom_size << std::endl;
+        std::cout << "CHR-ROM " << chr_rom_size << std::endl;
+        std::cout << "PRG-RAM " << prg_ram_size << std::endl;
+        std::cout << "CHR-RAM " << chr_ram_size << std::endl;
+        std::cout << "PRG-NVRAM " << prg_nvram_size << std::endl;
+        std::cout << "CHR-NVRAM " << chr_nvram_size << std::endl;
 
         switch (mapper_number)
         {
@@ -96,9 +118,15 @@ Cartridge::~Cartridge()
 bool Cartridge::cpuRead(uint16_t addr, uint8_t& data)
 {
     uint32_t mapper_addr = 0;
-    if(mapper->cpuMapRead(addr, mapper_addr))
+    MemoryKind memory_kind;
+    if(mapper->cpuMapRead(addr, mapper_addr, memory_kind))
     {
-        data = prg[mapper_addr];
+        switch(memory_kind)
+        {
+        case MemoryKind::ROM:   data = prg_rom  [mapper_addr]; break;
+        case MemoryKind::RAM:   data = prg_ram  [mapper_addr]; break;
+        case MemoryKind::NVRAM: data = prg_nvram[mapper_addr]; break;
+        }
         return true;
     }
     return false;
@@ -107,9 +135,15 @@ bool Cartridge::cpuRead(uint16_t addr, uint8_t& data)
 bool Cartridge::cpuWrite(uint16_t addr, uint8_t& data)
 {
     uint32_t mapper_addr = 0;
-    if(mapper->cpuMapWrite(addr, mapper_addr))
+    MemoryKind memory_kind;
+    if(mapper->cpuMapWrite(addr, mapper_addr, memory_kind))
     {
-        prg[mapper_addr] = data;
+        switch(memory_kind)
+        {
+        case MemoryKind::ROM:   /* READ-ONLY */                break;
+        case MemoryKind::RAM:   prg_rom  [mapper_addr] = data; break;
+        case MemoryKind::NVRAM: prg_nvram[mapper_addr] = data; break;
+        }
         return true;
     }
     return false;
@@ -118,9 +152,15 @@ bool Cartridge::cpuWrite(uint16_t addr, uint8_t& data)
 bool Cartridge::ppuRead(uint16_t addr, uint8_t& data)
 {
     uint32_t mapper_addr = 0;
-    if(mapper->ppuMapRead(addr, mapper_addr))
+    MemoryKind memory_kind;
+    if(mapper->ppuMapRead(addr, mapper_addr, memory_kind))
     {
-        data = chr[mapper_addr];
+        switch(memory_kind)
+        {
+        case MemoryKind::ROM:   data = chr_rom  [mapper_addr]; break;
+        case MemoryKind::RAM:   data = chr_ram  [mapper_addr]; break;
+        case MemoryKind::NVRAM: data = chr_nvram[mapper_addr]; break;
+        }
         return true;
     }
     return false;
@@ -129,9 +169,15 @@ bool Cartridge::ppuRead(uint16_t addr, uint8_t& data)
 bool Cartridge::ppuWrite(uint16_t addr, uint8_t& data)
 {
     uint32_t mapper_addr = 0;
-    if(mapper->ppuMapWrite(addr, mapper_addr))
+    MemoryKind memory_kind;
+    if(mapper->ppuMapWrite(addr, mapper_addr, memory_kind))
     {
-        chr[mapper_addr] = data;
+        switch(memory_kind)
+        {
+        case MemoryKind::ROM:   /* READ-ONLY */                break;
+        case MemoryKind::RAM:   chr_ram  [mapper_addr] = data; break;
+        case MemoryKind::NVRAM: chr_nvram[mapper_addr] = data; break;
+        }
         return true;
     }
     return false;

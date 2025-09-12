@@ -10,17 +10,19 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-  message(STATUS "GCC detected, adding compile flags")
+if(CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "GNU")
+  message(STATUS "GCC front-end detected, adding compile flags")
   set(CMAKE_CXX_FLAGS "-Wall -Wextra")
   set(CMAKE_CXX_FLAGS_DEBUG "-g")
   set(CMAKE_CXX_FLAGS_RELEASE "-O3 -g1")
-else(CMAKE_COMPILER_IS_GNUCXX)
-  message(STATUS "MSVC detected, adding compile flags")
+elseif(CMAKE_CXX_COMPILER_FRONTEND_VARIANT STREQUAL "MSVC")
+  message(STATUS "MSVC front-end detected, adding compile flags")
   set(CMAKE_CXX_FLAGS "/EHsc")
   set(CMAKE_CXX_FLAGS_DEBUG "/Od /Zi")
   set(CMAKE_CXX_FLAGS_RELEASE "/O2")
-endif(CMAKE_COMPILER_IS_GNUCXX)
+else()
+  message(FATAL_ERROR "Unsupported compiler front-end")
+endif()
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -32,13 +34,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
 FetchContent_Declare(
   sfml
   GIT_REPOSITORY "https://github.com/SFML/SFML.git"
-  GIT_TAG        2.6.1
+  GIT_TAG        2.6.2
+  SYSTEM
 )
 
 FetchContent_Declare(
   json
   GIT_REPOSITORY "https://github.com/nlohmann/json.git"
-  GIT_TAG        v3.11.3
+  GIT_TAG        v3.12.0
+  SYSTEM
 )
 
 ### Dependency population ###

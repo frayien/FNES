@@ -25,11 +25,6 @@ Mapper_000::Mapper_000(const Cartridge & cartridge)
     { throw std::invalid_argument("Invalid CHR-ROM size"); }
 }
 
-Mapper_000::~Mapper_000()
-{
-}
-
-
 bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
     if(addr >= 0x6000 && addr <= 0x7FFF && cpu_prg_ram_mask != 0)

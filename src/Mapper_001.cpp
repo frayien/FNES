@@ -7,11 +7,6 @@ Mapper_001::Mapper_001(const Cartridge & cartridge)
     std::abort();
 }
 
-Mapper_001::~Mapper_001()
-{
-}
-
-
 bool Mapper_001::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
     if(addr >= 0x6000 && addr <= 0x7FFF) // prg ram

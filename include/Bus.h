@@ -24,6 +24,7 @@
 
 union Controller
 {
+    uint8_t byte;
     struct
     {
         uint8_t A : 1;
@@ -35,7 +36,6 @@ union Controller
         uint8_t left : 1;
         uint8_t right : 1;
     };
-    uint8_t byte;
 };
 
 class Bus : public IBus
@@ -53,7 +53,7 @@ public:
 
     std::shared_ptr<Cartridge> cart;
 
-    Controller controller[2] = { 0 };
+    Controller controller[2] = { { 0 }, { 0 } };
     
     // Bus read and write
     virtual uint8_t cpuRead(uint16_t addr, bool read_only = false) override;
@@ -67,7 +67,7 @@ public:
 private:
     uint32_t system_clock_counter = 0;
 
-    Controller controller_state[2] = { 0 };
+    Controller controller_state[2] = { { 0 }, { 0 } };
 
     uint8_t dma_page = 0x00;
     uint8_t dma_addr = 0x00;

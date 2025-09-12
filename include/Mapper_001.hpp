@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mapper.h"
+#include "Mapper.hpp"
 
 class Mapper_001 : public Mapper
 {

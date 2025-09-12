@@ -1,7 +1,7 @@
-#include "Cartridge.h"
+#include "Cartridge.hpp"
 
-#include "Mapper.h"
-#include "Mapper_000.h"
+#include "Mapper.hpp"
+#include "Mapper_000.hpp"
 
 #include <iostream>
 #include <fstream>

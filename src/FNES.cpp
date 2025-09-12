@@ -1,4 +1,4 @@
-#include "FNES.h"
+#include "FNES.hpp"
 
 #include <sstream>
 #include <iostream>

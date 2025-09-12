@@ -1,5 +1,5 @@
 /**
- * @file Bus.h
+ * @file Bus.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief Bus emulation for the FNES Emulator
  * @version 0.1
@@ -15,11 +15,11 @@
 #include <array>
 #include <memory>
 
-#include "IBus.h"
-#include "Cpu6502.h"
-#include "Ppu2C02.h"
-#include "Cartridge.h"
-#include "Apu2A03.h"
+#include "IBus.hpp"
+#include "Cpu6502.hpp"
+#include "Ppu2C02.hpp"
+#include "Cartridge.hpp"
+#include "Apu2A03.hpp"
 
 union Controller
 {

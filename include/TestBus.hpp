@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IBus.h"
-#include "Cpu6502.h"
+#include "IBus.hpp"
+#include "Cpu6502.hpp"
 
 #include <cstdint>
 #include <array>

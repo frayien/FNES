@@ -1,4 +1,4 @@
-#include "Ppu2C02.h"
+#include "Ppu2C02.hpp"
 
 Ppu2C02::Ppu2C02()
 {

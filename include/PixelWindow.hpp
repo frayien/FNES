@@ -1,5 +1,5 @@
 /**
- * @file PixelWindow.h
+ * @file PixelWindow.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief A Window with Pixel level graphics
  * @version 0.1
@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "PixelCanvas.h"
+#include "PixelCanvas.hpp"
 
 #include <SFML/Graphics.hpp>
 

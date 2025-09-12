@@ -1,5 +1,5 @@
-#include "FNES.h"
-//#include "DemoCpu6502.h"
+#include "FNES.hpp"
+//#include "DemoCpu6502.hpp"
 
 #include <iostream>
 #include <iostream>

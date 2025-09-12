@@ -1,5 +1,5 @@
 /**
- * @file Cpu6502.h
+ * @file Cpu6502.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief CPU 6502 emulation for the FNES Emulator
  * @version 0.1
@@ -15,7 +15,7 @@
 
 #include <cstdint>
 
-#include "IBus.h"
+#include "IBus.hpp"
 
 class Cpu6502
 {

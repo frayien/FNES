@@ -1,4 +1,4 @@
-#include "Cpu6502.h"
+#include "Cpu6502.hpp"
 
 Cpu6502::Cpu6502()
 {

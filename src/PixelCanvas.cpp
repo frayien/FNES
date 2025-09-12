@@ -1,4 +1,4 @@
-#include "PixelCanvas.h"
+#include "PixelCanvas.hpp"
 
 TileSet PixelCanvas::font;
 

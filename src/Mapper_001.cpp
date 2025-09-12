@@ -1,6 +1,6 @@
-#include "Mapper_001.h"
-#include "Mapper.h"
-#include "Cartridge.h"
+#include "Mapper_001.hpp"
+#include "Mapper.hpp"
+#include "Cartridge.hpp"
 
 Mapper_001::Mapper_001(const Cartridge & cartridge)
 {

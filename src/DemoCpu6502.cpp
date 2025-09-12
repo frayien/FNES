@@ -1,4 +1,4 @@
-#include "DemoCpu6502.h"
+#include "DemoCpu6502.hpp"
 
 #include <sstream>
 #include <fstream>

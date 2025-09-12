@@ -1,5 +1,5 @@
 /**
- * @file Ppu2C02.h
+ * @file Ppu2C02.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief PPU
  * @version 0.1
@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "PixelCanvas.h"
-#include "Cartridge.h"
+#include "PixelCanvas.hpp"
+#include "Cartridge.hpp"
 
 #include <cstdint>
 #include <memory>

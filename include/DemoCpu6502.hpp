@@ -1,5 +1,5 @@
 /**
- * @file DemoCpu6502.h
+ * @file DemoCpu6502.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief Test and Demo for the cpu 6502
  * @version 0.1
@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "PixelWindow.h"
-#include "PixelCanvas.h"
-#include "TestBus.h"
+#include "PixelWindow.hpp"
+#include "PixelCanvas.hpp"
+#include "TestBus.hpp"
 
 #include <string>
 #include <array>

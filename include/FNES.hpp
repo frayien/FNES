@@ -1,5 +1,5 @@
 /**
- * @file FNES.h
+ * @file FNES.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief FNES main class
  * @version 0.1
@@ -13,10 +13,10 @@
 
 //#define FNES_DUMP
 
-#include "PixelWindow.h"
-#include "PixelCanvas.h"
-#include "Bus.h"
-#include "Cartridge.h"
+#include "PixelWindow.hpp"
+#include "PixelCanvas.hpp"
+#include "Bus.hpp"
+#include "Cartridge.hpp"
 
 #include <memory>
 

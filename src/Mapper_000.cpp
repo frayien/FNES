@@ -1,6 +1,6 @@
-#include "Mapper_000.h"
-#include "Mapper.h"
-#include "Cartridge.h"
+#include "Mapper_000.hpp"
+#include "Mapper.hpp"
+#include "Cartridge.hpp"
 
 #include <stdexcept>
 

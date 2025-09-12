@@ -1,5 +1,5 @@
 /**
- * @file Cartridge.h
+ * @file Cartridge.hpp
  * @author frayien (frayien@yahoo.fr)
  * @brief Cartridge
  * @version 0.1
@@ -16,7 +16,7 @@
 #include <string>
 #include <memory>
 
-#include "Mapper.h"
+#include "Mapper.hpp"
 
 class Cartridge
 {

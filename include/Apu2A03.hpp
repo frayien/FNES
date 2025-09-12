@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AudioStream.h"
-#include "IBus.h"
+#include "AudioStream.hpp"
+#include "IBus.hpp"
 
 #include <cstdint>
 

@@ -1,9 +1,7 @@
-#ifndef FNES_PIXELCANVAS
-#define FNES_PIXELCANVAS
+#pragma once
 
 #include <array>
 #include <cstdint>
-#include <memory>
 
 #include <SFML/Graphics.hpp>
 
@@ -57,5 +55,3 @@ private:
     sf::Image image;
     sf::Texture texture;
 };
-
-#endif // FNES_PIXELCANVAS

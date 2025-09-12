@@ -9,8 +9,7 @@
  * 
  */
 
-#ifndef FNES_BUS
-#define FNES_BUS
+#pragma once
 
 #include <cstdint>
 #include <array>
@@ -76,6 +75,3 @@ private:
     bool dma_transfer = false;
     bool dma_dummy = true;
 };
-
-
-#endif // !FNES_BUS

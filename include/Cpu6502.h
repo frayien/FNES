@@ -11,8 +11,7 @@
  * 
  */
 
-#ifndef FNES_CPU6502
-#define FNES_CPU6502
+#pragma once
 
 #include <cstdint>
 
@@ -121,5 +120,3 @@ private:
     uint8_t read(uint16_t addr);
     void write(uint16_t addr, uint8_t data);
 };
-
-#endif // !FNES_CPU6502

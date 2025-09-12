@@ -10,8 +10,7 @@
  * cf http://wiki.nesdev.com/w/index.php/NES_2.0
  */
 
-#ifndef FNES_CARTRIDGE
-#define FNES_CARTRIDGE 
+#pragma once
 
 #include <cstdint>
 #include <string>
@@ -143,5 +142,3 @@ public:
     /// cf : https://wiki.nesdev.com/w/index.php/NES_2.0#Default_Expansion_Device
     uint8_t default_expansion_device = 0b00'0000;
 };
-
-#endif // !FNES_CARTRIDGE

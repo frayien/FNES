@@ -1,5 +1,4 @@
-#ifndef FNES_TESTBUS
-#define FNES_TESTBUS
+#pragma once
 
 #include "IBus.h"
 #include "Cpu6502.h"
@@ -21,5 +20,3 @@ public:
     virtual uint8_t cpuRead(uint16_t addr, bool read_only = false) override;
     virtual void cpuWrite(uint16_t addr, uint8_t data) override;
 };
-
-#endif // FNES_TESTBUS

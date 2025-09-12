@@ -9,17 +9,14 @@
  *
  */
 
-#ifndef FNES_PPU2C02
-#define FNES_PPU2C02
+#pragma once
+
+#include "PixelCanvas.h"
+#include "Cartridge.h"
 
 #include <cstdint>
 #include <memory>
-#include <cstring>
 
-
-#include "PixelCanvas.h"
-
-#include "Cartridge.h"
 
 class Ppu2C02
 {
@@ -186,5 +183,3 @@ public:
         0xECEEECFF, 0xA8CCECFF, 0xBCBCECFF, 0xD4B2ECFF, 0xECAEECFF, 0xECAED4FF, 0xECB4B0FF, 0xE4C490FF, 0xCCD278FF, 0xB4DE78FF, 0xA8E290FF, 0x98E2B4FF, 0xA0D6E4FF, 0xA0A2A0FF, 0x000000FF, 0x000000FF
     };
 };
-
-#endif // !FNES_PPU2C02

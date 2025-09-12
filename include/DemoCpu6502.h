@@ -9,8 +9,7 @@
  * 
  */
 
-#ifndef FNES_DEMOCPU6502
-#define FNES_DEMOCPU6502
+#pragma once
 
 #include "PixelWindow.h"
 #include "PixelCanvas.h"
@@ -18,9 +17,6 @@
 
 #include <string>
 #include <array>
-#include <sstream>
-#include <fstream>
-#include <iostream>
 
 class DemoCpu6502 : public PixelWindow
 {
@@ -52,5 +48,3 @@ public:
     uint16_t buffer_PC = 0;
     std::array<std::string, 10> buffer;
 };
-
-#endif // !FNES_DEMOCPU6502

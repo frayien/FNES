@@ -1,10 +1,8 @@
-#ifndef FNES_IBUS
-#define FNES_IBUS
+#pragma once
 
 #include <cstdint>
 #include <map>
 #include <string>
-#include <sstream>
 #include <vector>
 
 std::string hex(uint32_t n, uint8_t ln);
@@ -48,5 +46,3 @@ public:
 		{ "BEQ", "REL", 2 },{ "SBC", "IZY", 5 },{ "???", "IMP", 2 },{ "???", "IMP", 8 },{ "???", "IMP", 4 },{ "SBC", "ZPX", 4 },{ "INC", "ZPX", 6 },{ "???", "IMP", 6 },{ "SED", "IMP", 2 },{ "SBC", "ABY", 4 },{ "NOP", "IMP", 2 },{ "???", "IMP", 7 },{ "???", "IMP", 4 },{ "SBC", "ABX", 4 },{ "INC", "ABX", 7 },{ "???", "IMP", 7 },
 	};
 };
-
-#endif // FNES_IBUS

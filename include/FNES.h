@@ -9,8 +9,7 @@
  * 
  */
 
-#ifndef FNES_FNES
-#define FNES_FNES
+#pragma once
 
 //#define FNES_DUMP
 
@@ -19,7 +18,6 @@
 #include "Bus.h"
 #include "Cartridge.h"
 
-#include <sstream>
 #include <memory>
 
 class FNES : public PixelWindow
@@ -77,5 +75,3 @@ public:
         RStick = 9
     };
 };
-
-#endif // FNES_FNES

@@ -1,5 +1,4 @@
-#ifndef FNES_MAPPER_000
-#define FNES_MAPPER_000
+#pragma once
 
 #include "Mapper.h"
 
@@ -19,5 +18,3 @@ private:
     uint16_t cpu_prg_rom_mask;
     uint16_t cpu_prg_ram_mask;
 };
-
-#endif // FNES_MAPPER_000

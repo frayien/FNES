@@ -1,11 +1,9 @@
-#ifndef FNES_APU2A03
-#define FNES_APU2A03
-
-#include <cstdint>
-#include <iostream>
+#pragma once
 
 #include "AudioStream.h"
 #include "IBus.h"
+
+#include <cstdint>
 
 class Apu2A03
 {
@@ -514,5 +512,3 @@ private:
         428, 380, 340, 320, 286, 254, 226, 214, 190, 160, 142, 128, 106,  84,  72,  54
     };
 };
-
-#endif // FNES_APU2A03

@@ -1,5 +1,8 @@
 #include "FNES.h"
 
+#include <sstream>
+#include <iostream>
+
 FNES::FNES() :
     PixelWindow(256*3+128*2*2, 720, "FNES"),
     gui(400, 480)

@@ -1,5 +1,4 @@
-#ifndef FNES_MAPPER_001
-#define FNES_MAPPER_001
+#pragma once
 
 #include "Mapper.h"
 
@@ -15,5 +14,3 @@ public:
     virtual bool ppuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) override;
     virtual bool ppuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) override;
 };
-
-#endif // FNES_MAPPER_001

@@ -9,17 +9,16 @@
  *
  */
 
-#ifndef FNES_PIXEL_WINDOW
-#define FNES_PIXEL_WINDOW
-
-#include <cstdint>
-#include <array>
-#include <set>
-#include <string>
-#include <atomic>
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include "PixelCanvas.h"
+
+#include <SFML/Graphics.hpp>
+
+#include <cstdint>
+#include <atomic>
+#include <set>
+
 
 class PixelWindow
 {
@@ -52,5 +51,3 @@ private:
 
     sf::RenderWindow window;
 };
-
-#endif // !FNES_PIXEL_WINDOW

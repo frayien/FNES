@@ -1,9 +1,8 @@
-#ifndef FNES_AUDIOSTREAM
-#define FNES_AUDIOSTREAM
+#pragma once
 
 #include <SFML/Audio.hpp>
+
 #include <cstdint>
-#include <cmath>
 
 class AudioStream : public sf::SoundStream
 {
@@ -31,5 +30,3 @@ private:
     uint32_t read_buffer_pos = 0;
     uint32_t write_buffer_pos = 0;
 };
-
-#endif // FNES_AUDIOSTREAM

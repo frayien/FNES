@@ -1,5 +1,9 @@
 #include "DemoCpu6502.h"
 
+#include <sstream>
+#include <fstream>
+#include <iostream>
+
 DemoCpu6502::DemoCpu6502() : 
     PixelWindow(680*1.5, 480*1.5, "FNES"),
     gui(680,480)

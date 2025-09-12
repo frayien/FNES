@@ -1,5 +1,4 @@
-#ifndef FNES_MAPPER
-#define FNES_MAPPER
+#pragma once
 
 #include <cstdint>
 
@@ -25,5 +24,3 @@ public:
     virtual bool ppuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) = 0;
     virtual bool ppuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind) = 0;
 };
-
-#endif // FNES_MAPPER

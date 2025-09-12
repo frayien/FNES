@@ -1,10 +1,11 @@
 #include "IBus.h"
 
+#include <sstream>
+
 std::string hex(uint32_t n, uint8_t ln)
 {
     std::string s(ln, '0');
-    for(int i = ln-1; i>=0; i--, n >>= 4)
-    s[i] = "0123456789ABCDEF"[n & 0xF];
+    for(int i = ln-1; i>=0; i--, n >>= 4) { s[i] = "0123456789ABCDEF"[n & 0xF]; }
     return s;
 }
 

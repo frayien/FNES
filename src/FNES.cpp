@@ -113,23 +113,30 @@ void FNES::draw()
 {
     gui.clear(0x00000000);
 
+    // Palette
     for(int pal = 0; pal<8; ++pal)
-        for(int pix = 0; pix<4; ++pix)
-            gui.drawSprite(2 + pal*(5*8) + pix*8,2,full_tile, nes.ppu.getColorFromPaletteRam(pal,pix));
+    {   for(int pix = 0; pix<4; ++pix)
+        { gui.drawSprite(2 + pal*(5*8) + pix*8,2,full_tile, nes.ppu.getColorFromPaletteRam(pal,pix)); }}
 
+    // Palette selection
     for(int pix = 0; pix<(8*4); ++pix)
-        gui.setPixel(2+selected_palette*(8*5)+pix, 3+8, 0x0000FFFF);
+    {   gui.setPixel(2+selected_palette*(8*5)+pix, 3+8, 0x0000FFFF); }
 
+    // CPU state
     drawCpu(10, 4 + 8+2);
-    drawSprite(2       , 4+10*7 +8+2, 0 , 22);
-    drawSprite(4 + 16*8, 4+10*7 +8+2+12, 22, 43);
-    drawSprite(6 + 32*8, 4+10*7 +8+2+12, 43, 64);
-    //drawCode(10, 4+10*7 +8+2);
-    //gui.drawString(10, 362, "Space = Run\nC = Cpu Instruction\nF = Full Frame\nP = select palette\nR = RESET\nI = IRQ\nN = NMI", 0, 2);
+    // Sprite map
+    // drawSprite(2       , 4+10*7 +8+2, 0 , 22);
+    // drawSprite(4 + 16*8, 4+10*7 +8+2+12, 22, 43);
+    // drawSprite(6 + 32*8, 4+10*7 +8+2+12, 43, 64);
+    // Code at PC
+    drawCode(10, 4+10*7 +8+2);
+    gui.drawString(10, 362, "Space = Run\nC = Cpu Instruction\nF = Full Frame\nP = select palette\nR = RESET\nI = IRQ\nN = NMI", 0, 2);
     drawCanvas(gui, 256*3, 128*2, 1.3);
 
+    // PatterTable 0 & 1
     drawCanvas(nes.ppu.getPatternTable(0,selected_palette), 256*3, 0, 2);
     drawCanvas(nes.ppu.getPatternTable(1,selected_palette), 256*4, 0, 2);
+    // Game
     drawCanvas(nes.ppu.getScreen(), 0, 0, 3);
 }
 

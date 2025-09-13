@@ -119,22 +119,22 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
         noise_envelope.start_flag = true;
         break;
 
-    case 0x4010: // 
+    case 0x4010: // DMC
         dmc.irq_enabled_flag = (data & 0x80) > 0;
         dmc.loop_flag = (data & 0x40) > 0;
         dmc.rate = ntsc_rate[data & 0x0F];
         break;
-    case 0x4011: // 
+    case 0x4011: // DMC
         dmc.output_level = data & 0x7F;
         break;
-    case 0x4012: // 
+    case 0x4012: // DMC
         dmc.sample_addr = 0xC000 | (data << 6);
         break;
-    case 0x4013: // 
+    case 0x4013: // DMC
         dmc.sample_length = (data << 4) | 0x0001;
         break;
 
-    case 0x4015: // All, Channel enable and lengh counter status
+    case 0x4015: // All, Channel enable and length counter status
         pulse_1.enabled = data & 0x01;
         if(!pulse_1.enabled) pulse_1.length_counter = 0;
         
@@ -148,6 +148,8 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
         if(!noise.enabled) noise.length_counter = 0;
 
         dmc.enabled = (data & 0x10) > 0;
+        if(!dmc.enabled) dmc.sample_byte_remaining = 0;
+        dmc.irq = false;
         
         break;
 
@@ -160,6 +162,19 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
 uint8_t Apu2A03::cpuRead(uint16_t addr)
 {
     uint8_t data = 0x00;
+
+    if(addr == 0x4015) // Read status
+    {
+        if(pulse_1.length_counter  != 0) data |= 0x01;
+        if(pulse_2.length_counter  != 0) data |= 0x02;
+        if(triangle.length_counter != 0) data |= 0x04;
+        if(noise.length_counter    != 0) data |= 0x08;
+        if(dmc.sample_byte_remaining != 0) data |= 0x10;
+        if(dmc.irq) data |= 0x40;
+        if(irq    ) data |= 0x80;
+
+        irq = false;
+    }
 
     return data;
 }

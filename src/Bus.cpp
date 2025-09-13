@@ -26,10 +26,10 @@ uint8_t Bus::cpuRead(uint16_t addr, bool read_only)
     {
         data = ppu.cpuRead(addr & 0x0007, read_only);
     }
-    /*else if ((addr >= 0x4000 && addr <= 0x4013) || addr == 0x4015 || addr == 0x4017)
+    else if ((addr >= 0x4000 && addr <= 0x4013) || addr == 0x4015 || addr == 0x4017)
     {
         data = apu.cpuRead(addr);
-    }*/
+    }
     else if (addr >= 0x4016 && addr <= 0x4017) // controllers
     {
         data = (controller_state[addr & 0x0001].byte & 0x01) > 0;
@@ -123,9 +123,8 @@ void Bus::clock()
         }
     }
 
-    if(apu.irq)
+    if(apu.irq || apu.dmc.irq)
     {
-        apu.irq = false;
         cpu.irq();
     }
 

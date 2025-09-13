@@ -360,12 +360,16 @@ public:
 
         uint8_t output_level = 0x00;
 
+        bool irq = false;
+
 private:
         uint8_t sample_buffer = 0x00;
         uint8_t sample_buffer_size = 0;
 
         uint16_t sample_addr_counter = 0x0000;
+public:
         uint16_t sample_byte_remaining = 0x0000;
+private:
 
         uint16_t rate_couter = 0x0000;
 
@@ -381,7 +385,7 @@ public:
                 if(sample_byte_remaining > 0)
                 {
                     silence = false;
-                    sample_buffer = apu->bus->cpuRead(sample_addr_counter);
+                    sample_buffer = apu->bus->cpuRead(0x8000 | (sample_addr_counter & 0x7FFF));
                     sample_addr_counter++;
                     sample_byte_remaining--;
                 }
@@ -390,7 +394,8 @@ public:
                     silence = true;
                 }
 
-                if(sample_byte_remaining == 0)
+                // Becomes 0
+                if(sample_byte_remaining == 0 && enabled)
                 {
                     if(loop_flag)
                     {
@@ -402,7 +407,7 @@ public:
                     {
                         if(irq_enabled_flag)
                         {
-                            apu->irq = true;
+                            irq = true;
                         }
                     }
                 }
@@ -476,7 +481,7 @@ private:
     bool frame_counter_mode = 0;
     bool interrupt_inhibit_flag = 0;
 
-
+public:
     envelope pulse_1_envelope;
     sweep pulse_1_sweep;
     pulse pulse_1;
@@ -492,6 +497,7 @@ private:
 
     dmc dmc;
 
+private:
     uint32_t offset = 0;
     AudioStream audio_stream;
 

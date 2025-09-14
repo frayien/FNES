@@ -10,13 +10,13 @@ FNES::FNES() :
     setBackgroundColor(sf::Color(0x45467fFF));
     PixelCanvas::initFont();
 
-    //cart = std::make_shared<Cartridge>("resources/apu_mixer/dmc.nes");
+    //cart = std::make_shared<Cartridge>("resources/apu_mixer/square.nes");
     //cart = std::make_shared<Cartridge>("resources/full_palette/full_palette_alt.nes");
     //cart = std::make_shared<Cartridge>("resources/instr_test-v5/official_only.nes");
     //cart = std::make_shared<Cartridge>("resources/nestest.nes");
     //cart = std::make_shared<Cartridge>("resources/color_test.nes");
-    // cart = std::make_shared<Cartridge>("resources/Super Mario Bros. (World).nes");
     cart = std::make_shared<Cartridge>("resources/AccuracyCoin.nes");
+    //cart = std::make_shared<Cartridge>("resources/Super Mario Bros. (World).nes");
     //cart = std::make_shared<Cartridge>("resources/Donkey Kong (JU) [p1].nes");
     //cart = std::make_shared<Cartridge>("resources/Ice Climber (USA, Europe).nes");
     //cart = std::make_shared<Cartridge>("resources/Duck Tales (USA).nes");

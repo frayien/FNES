@@ -85,7 +85,7 @@ public:
     inline uint8_t ALR(); inline uint8_t ANC(); inline uint8_t ARR(); inline uint8_t AXS();
     inline uint8_t LAX(); inline uint8_t SAX(); inline uint8_t DCP(); inline uint8_t ISC();
     inline uint8_t RLA(); inline uint8_t RRA(); inline uint8_t SLO(); inline uint8_t SRE();
-    inline uint8_t SKB(); inline uint8_t IGN(); inline uint8_t STP();
+    inline uint8_t SKB(); inline uint8_t IGN(); inline uint8_t STP(); inline uint8_t XAA();
     inline uint8_t XXX();
 
     void clock();

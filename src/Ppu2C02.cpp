@@ -1,4 +1,5 @@
 #include "Ppu2C02.hpp"
+#include "Mapper.hpp"
 
 Ppu2C02::Ppu2C02()
 {
@@ -37,7 +38,7 @@ uint8_t Ppu2C02::cpuRead(uint16_t addr, bool read_only)
 
         // if reading in palette range, no delay
         if(vram_addr.reg > 0x3F00) data = ppu_data_buffer;
-        
+
         vram_addr.reg += (ppuctrl.increment_mode*31 + 1);
         break;
     }
@@ -115,7 +116,7 @@ uint8_t Ppu2C02::ppuRead(uint16_t addr, bool read_only)
     }
     else if(addr >= 0x2000 && addr <= 0x3EFF) // nametable
     {
-        if(cart->mirror == Cartridge::HORIZONTAL)
+        if(cart->mirror() == MirrorMode::HORIZONTAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 data = ram_nametable[0][addr & 0x03FF];
@@ -126,7 +127,7 @@ uint8_t Ppu2C02::ppuRead(uint16_t addr, bool read_only)
             if(addr >= 0x2C00 && addr <= 0x2FFF)
                 data = ram_nametable[1][addr & 0x03FF];
         }
-        else if(cart->mirror == Cartridge::VERTICAL)
+        else if(cart->mirror() == MirrorMode::VERTICAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 data = ram_nametable[0][addr & 0x03FF];
@@ -165,7 +166,7 @@ void Ppu2C02::ppuWrite(uint16_t addr, uint8_t data)
     }
     else if(addr >= 0x2000 && addr <= 0x3EFF) // nametable
     {
-        if(cart->mirror == Cartridge::HORIZONTAL)
+        if(cart->mirror() == MirrorMode::HORIZONTAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 ram_nametable[0][addr & 0x03FF] = data;
@@ -176,7 +177,7 @@ void Ppu2C02::ppuWrite(uint16_t addr, uint8_t data)
             if(addr >= 0x2C00 && addr <= 0x2FFF)
                 ram_nametable[1][addr & 0x03FF] = data;
         }
-        else if(cart->mirror == Cartridge::VERTICAL)
+        else if(cart->mirror() == MirrorMode::VERTICAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 ram_nametable[0][addr & 0x03FF] = data;

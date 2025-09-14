@@ -48,13 +48,7 @@ public:
     uint32_t chr_ram_size;
     uint32_t chr_nvram_size;
 
-    enum MIRROR
-    {
-        HORIZONTAL,
-        VERTICAL,
-        ONESCREEN_LO,
-        ONESCREEN_HI
-    } mirror = HORIZONTAL;
+    MirrorMode mirror() const;
 
     // const //
 

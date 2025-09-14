@@ -134,9 +134,9 @@ public:
         uint8_t x;
     };
     ObjectAttributeEntity OAM[64];
-    
+
     uint8_t* OAM_ptr = (uint8_t*) OAM;
-    
+
 private:
     std::shared_ptr<Cartridge> cart;
 

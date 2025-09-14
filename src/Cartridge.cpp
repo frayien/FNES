@@ -2,7 +2,9 @@
 
 #include "Mapper.hpp"
 #include "Mapper_000.hpp"
+#include "Mapper_001.hpp"
 
+#include <cstdint>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
@@ -61,8 +63,28 @@ Cartridge::Cartridge(std::string const& path)
     default_expansion_device = header[15] & 0b0011'1111;
 
     // init buffers
-    prg_rom_size = PRG_SIZE*prg_count;
-    chr_rom_size = CHR_SIZE*chr_count;
+    if(prg_rom_size_msb == 0x0F)
+    { // Exponent notation
+        uint32_t exp = (prg_count & 0xFC) >> 2;
+        uint32_t mult = (prg_count & 0x03)*2 + 1;
+        prg_rom_size = (2 << exp) * mult;
+    }
+    else
+    {
+        uint32_t bc = prg_count | (prg_rom_size_msb << 8);
+        prg_rom_size = PRG_SIZE*bc;
+    }
+    if(chr_rom_size_msb == 0x0F)
+    { // Exponent notation
+        uint32_t exp = (chr_count & 0xFC) >> 2;
+        uint32_t mult = (chr_count & 0x03)*2 + 1;
+        prg_rom_size = (2 << exp) * mult;
+    }
+    else
+    {
+        uint32_t bc = chr_count | (chr_rom_size_msb << 8);
+        chr_rom_size = CHR_SIZE*bc;
+    }
     prg_ram_size   = prg_ram_shift_count          == 0 ? 0 : 64 << prg_ram_shift_count;
     chr_ram_size   = chr_ram_shift_count          == 0 ? 0 : 64 << chr_ram_shift_count;
     prg_nvram_size = prg_nvram_eeprom_shift_count == 0 ? 0 : 64 << prg_nvram_eeprom_shift_count;
@@ -74,9 +96,6 @@ Cartridge::Cartridge(std::string const& path)
     chr_ram = std::make_unique<uint8_t[]>(chr_ram_size);
     prg_nvram = std::make_unique<uint8_t[]>(prg_nvram_size);
     chr_nvram = std::make_unique<uint8_t[]>(chr_nvram_size);
-
-    // init variables
-    mirror = hardwired_nametable_mirroring_type_is_vertical ? VERTICAL : HORIZONTAL;
 
     // load trainer
     if(has_trainer)
@@ -94,6 +113,7 @@ Cartridge::Cartridge(std::string const& path)
     std::cout << "INES ? " << is_iNES_format << std::endl;
     std::cout << "NES2.0 ? " << is_NES20_format << std::endl;
     std::cout << "Mapper " << mapper_number << std::endl;
+    std::cout << "Submapper " << (int) submapper_number << std::endl;
     std::cout << "PRG-ROM " << prg_rom_size << std::endl;
     std::cout << "CHR-ROM " << chr_rom_size << std::endl;
     std::cout << "PRG-RAM " << prg_ram_size << std::endl;
@@ -104,7 +124,8 @@ Cartridge::Cartridge(std::string const& path)
     switch (mapper_number)
     {
     case 0: mapper = std::make_shared<Mapper_000>(*this); break;
-    
+    case 1: mapper = std::make_shared<Mapper_001>(*this); break;
+
     default: break;
     }
 }
@@ -135,7 +156,7 @@ bool Cartridge::cpuWrite(uint16_t addr, uint8_t& data)
 {
     uint32_t mapper_addr = 0;
     MemoryKind memory_kind;
-    if(mapper->cpuMapWrite(addr, mapper_addr, memory_kind))
+    if(mapper->cpuMapWrite(addr, data, mapper_addr, memory_kind))
     {
         switch(memory_kind)
         {
@@ -180,4 +201,9 @@ bool Cartridge::ppuWrite(uint16_t addr, uint8_t& data)
         return true;
     }
     return false;
+}
+
+MirrorMode Cartridge::mirror() const
+{
+    mapper->mirror();
 }

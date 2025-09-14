@@ -21,8 +21,14 @@ Mapper_000::Mapper_000(const Cartridge & cartridge)
         default: throw std::invalid_argument("Invalid PRG-RAM size");
     }
 
-    if(cartridge.chr_rom_size != 0x2000)
-    { throw std::invalid_argument("Invalid CHR-ROM size"); }
+    switch(cartridge.chr_rom_size)
+    {
+        case 0x0000: has_chr_rom = false; break;
+        case 0x2000: has_chr_rom = true; break;
+        default: throw std::invalid_argument("Invalid CHR-ROM size");
+    }
+
+    mirror_mode = cartridge.hardwired_nametable_mirroring_type_is_vertical ? MirrorMode::VERTICAL : MirrorMode::HORIZONTAL;
 }
 
 bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
@@ -39,9 +45,9 @@ bool Mapper_000::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& me
         memory_kind = MemoryKind::ROM;
         return true;
     }
-    return false; 
+    return false;
 }
-bool Mapper_000::cpuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
+bool Mapper_000::cpuMapWrite(uint16_t addr, uint8_t data, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
     if(addr >= 0x6000 && addr <= 0x7FFF && cpu_prg_ram_mask != 0)
     {
@@ -55,26 +61,31 @@ bool Mapper_000::cpuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& m
         memory_kind = MemoryKind::ROM;
         return true;
     }
-    return false; 
+    return false;
 }
 
 bool Mapper_000::ppuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x0000 && addr <= 0x1FFF)
+    if(addr >= 0x0000 && addr <= 0x1FFF && has_chr_rom)
     {
         mapper_addr = addr;
         memory_kind = MemoryKind::ROM;
         return true;
     }
-    return false; 
+    return false;
 }
 bool Mapper_000::ppuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x0000 && addr <= 0x1FFF)
+    if(addr >= 0x0000 && addr <= 0x1FFF && has_chr_rom)
     {
         mapper_addr = addr;
         memory_kind = MemoryKind::ROM;
         return true;
     }
-    return false; 
+    return false;
+}
+
+MirrorMode Mapper_000::mirror() const
+{
+    return mirror_mode;
 }

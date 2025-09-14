@@ -205,5 +205,5 @@ bool Cartridge::ppuWrite(uint16_t addr, uint8_t& data)
 
 MirrorMode Cartridge::mirror() const
 {
-    mapper->mirror();
+    return mapper->mirror();
 }

@@ -24,23 +24,21 @@ private:
 private:
     MirrorMode mirror_mode;
 
+    MemoryKind prg_ram_kind;
+    MemoryKind chr_mem_kind;
+
     uint32_t prg_ram_bank_count;
-    uint32_t prg_nvram_bank_count;
     uint32_t prg_rom_bank_count;
-    uint32_t chr_rom_bank_count;
-    uint32_t chr_ram_bank_count;
+    uint32_t chr_bank_count;
 
     uint32_t prg_ram_bank_idx;
-    uint32_t prg_nvram_bank_idx;
 
     uint32_t prg_rom_lo_bank_idx;
     uint32_t prg_rom_hi_bank_idx;
 
-    uint32_t chr_rom_lo_bank_idx;
-    uint32_t chr_rom_hi_bank_idx;
+    uint32_t chr_lo_bank_idx;
+    uint32_t chr_hi_bank_idx;
 
-    uint32_t chr_ram_lo_bank_idx;
-    uint32_t chr_ram_hi_bank_idx;
 
     enum class Variant
     {

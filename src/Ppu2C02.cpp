@@ -116,7 +116,8 @@ uint8_t Ppu2C02::ppuRead(uint16_t addr, bool read_only)
     }
     else if(addr >= 0x2000 && addr <= 0x3EFF) // nametable
     {
-        if(cart->mirror() == MirrorMode::HORIZONTAL)
+        MirrorMode mirror_mode = cart->mirror();
+        if(mirror_mode == MirrorMode::HORIZONTAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 data = ram_nametable[0][addr & 0x03FF];
@@ -127,7 +128,7 @@ uint8_t Ppu2C02::ppuRead(uint16_t addr, bool read_only)
             if(addr >= 0x2C00 && addr <= 0x2FFF)
                 data = ram_nametable[1][addr & 0x03FF];
         }
-        else if(cart->mirror() == MirrorMode::VERTICAL)
+        else if(mirror_mode == MirrorMode::VERTICAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 data = ram_nametable[0][addr & 0x03FF];
@@ -137,6 +138,14 @@ uint8_t Ppu2C02::ppuRead(uint16_t addr, bool read_only)
                 data = ram_nametable[0][addr & 0x03FF];
             if(addr >= 0x2C00 && addr <= 0x2FFF)
                 data = ram_nametable[1][addr & 0x03FF];
+        }
+        else if(mirror_mode == MirrorMode::ONESCREEN_LO)
+        {
+            data = ram_nametable[0][addr & 0x03FF];
+        }
+        else if(mirror_mode == MirrorMode::ONESCREEN_HI)
+        {
+            data = ram_nametable[1][addr & 0x03FF];
         }
     }
     else if(addr >= 0x3F00 && addr <= 0x3FFF) // palette
@@ -166,7 +175,8 @@ void Ppu2C02::ppuWrite(uint16_t addr, uint8_t data)
     }
     else if(addr >= 0x2000 && addr <= 0x3EFF) // nametable
     {
-        if(cart->mirror() == MirrorMode::HORIZONTAL)
+        MirrorMode mirror_mode = cart->mirror();
+        if(mirror_mode == MirrorMode::HORIZONTAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 ram_nametable[0][addr & 0x03FF] = data;
@@ -177,7 +187,7 @@ void Ppu2C02::ppuWrite(uint16_t addr, uint8_t data)
             if(addr >= 0x2C00 && addr <= 0x2FFF)
                 ram_nametable[1][addr & 0x03FF] = data;
         }
-        else if(cart->mirror() == MirrorMode::VERTICAL)
+        else if(mirror_mode == MirrorMode::VERTICAL)
         {
             if(addr >= 0x2000 && addr <= 0x23FF)
                 ram_nametable[0][addr & 0x03FF] = data;
@@ -187,6 +197,14 @@ void Ppu2C02::ppuWrite(uint16_t addr, uint8_t data)
                 ram_nametable[0][addr & 0x03FF] = data;
             if(addr >= 0x2C00 && addr <= 0x2FFF)
                 ram_nametable[1][addr & 0x03FF] = data;
+        }
+        else if(mirror_mode == MirrorMode::ONESCREEN_LO)
+        {
+            ram_nametable[0][addr & 0x03FF] = data;
+        }
+        else if(mirror_mode == MirrorMode::ONESCREEN_HI)
+        {
+            ram_nametable[1][addr & 0x03FF] = data;
         }
     }
     else if(addr >= 0x3F00 && addr <= 0x3FFF) // palette

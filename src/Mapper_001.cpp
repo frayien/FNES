@@ -15,30 +15,46 @@ Mapper_001::Mapper_001(const Cartridge & cartridge)
     default: throw std::invalid_argument("Invalid Submapper");
     }
 
-    // PRG-RAM
-    if(cartridge.prg_ram_size % 0x2000 != 0)
-    { throw std::invalid_argument("Invalid PRG-RAM size"); }
-    prg_ram_bank_count = cartridge.prg_ram_size / 0x2000;
+    // PRG-(NV)RAM
+    uint32_t l_prg_ram_size = 0;
+    if(cartridge.prg_nvram_size == 0)
+    { // RAM
+        prg_ram_kind = MemoryKind::RAM;
+        l_prg_ram_size = cartridge.prg_ram_size;
+    }
+    else
+    { // NVRAM
+        if(cartridge.prg_ram_size != 0) { throw std::invalid_argument("Mapper 1 dont support PRG-RAM and PRG-NVRAM at the same time"); }
 
-    // PRG-NVRAM
-    if(cartridge.prg_nvram_size % 0x2000 != 0)
-    { throw std::invalid_argument("Invalid PRG-NVRAM size"); }
-    prg_nvram_bank_count = cartridge.prg_nvram_size / 0x2000;
+        prg_ram_kind = MemoryKind::NVRAM;
+        l_prg_ram_size = cartridge.prg_nvram_size;
+    }
+    if(l_prg_ram_size % 0x2000 != 0)
+    { throw std::invalid_argument("Invalid PRG-(NV)RAM size"); }
+    prg_ram_bank_count = l_prg_ram_size / 0x2000;
 
     // PRG-ROM
     if(cartridge.prg_rom_size == 0 || cartridge.prg_rom_size % 0x4000 != 0)
     { throw std::invalid_argument("Invalid PRG-ROM size"); }
     prg_rom_bank_count = cartridge.prg_rom_size / 0x4000;
 
-    // CHR-ROM
-    if(cartridge.chr_rom_size % 0x1000 != 0)
-    { throw std::invalid_argument("Invalid CHR-ROM size"); }
-    chr_rom_bank_count = cartridge.chr_rom_size / 0x1000;
+    // CHR-ROM/RAM
+    uint32_t l_chr_size = 0;
+    if(cartridge.chr_ram_size == 0)
+    { // ROM
+        chr_mem_kind = MemoryKind::ROM;
+        l_chr_size = cartridge.chr_rom_size;
+    }
+    else
+    { // RAM
+        if(cartridge.chr_rom_size != 0) { throw std::invalid_argument("Mapper 1 dont support CHR-ROM and CHR-RAM at the same time"); }
 
-    // CHR-RAM
-    if(cartridge.chr_ram_size % 0x1000 != 0)
-    { throw std::invalid_argument("Invalid CHR-RAM size"); }
-    chr_ram_bank_count = cartridge.chr_ram_size / 0x1000;
+        chr_mem_kind = MemoryKind::RAM;
+        l_chr_size = cartridge.chr_ram_size;
+    }
+    if(l_chr_size % 0x1000 != 0)
+    { throw std::invalid_argument("Invalid CHR-ROM/RAM size"); }
+    chr_bank_count = l_chr_size / 0x1000;
 
     // Validation
     switch(variant)
@@ -52,10 +68,10 @@ Mapper_001::Mapper_001(const Cartridge & cartridge)
     case Variant::DEFAULT: [[fallthrough]];
     default:
     {
-        if(prg_ram_bank_count == 1 && prg_nvram_bank_count == 1 && chr_rom_bank_count >= 4)
-        { variant = Variant::SZROM; }
-        else if(chr_rom_bank_count + chr_ram_bank_count <= 2 && prg_rom_bank_count > 16)
-        { variant = Variant::SOROM_SUROM_SXROM; }
+        // if(prg_ram_bank_count == 1 && prg_nvram_bank_count == 1 && chr_bank_count >= 4)
+        // { variant = Variant::SZROM; }
+        // else if(chr_bank_count <= 2 && prg_rom_bank_count > 16)
+        // { variant = Variant::SOROM_SUROM_SXROM; }
         // TODO SNROM
         break;
     }
@@ -63,16 +79,12 @@ Mapper_001::Mapper_001(const Cartridge & cartridge)
 
     // init
     prg_ram_bank_idx = 0;
-    prg_nvram_bank_idx = 0;
 
     prg_rom_lo_bank_idx = 0;
     prg_rom_hi_bank_idx = prg_rom_bank_count-1;
 
-    chr_rom_lo_bank_idx = 0;
-    chr_rom_hi_bank_idx = chr_rom_bank_count-1;
-
-    chr_ram_lo_bank_idx = 0;
-    chr_ram_hi_bank_idx = chr_rom_bank_count-1;
+    chr_lo_bank_idx = 0;
+    chr_hi_bank_idx = chr_bank_count-1;
 
     reg_Shift = 0b1'0000;
     reg_Control = 0b0'1100;
@@ -85,10 +97,10 @@ Mapper_001::Mapper_001(const Cartridge & cartridge)
 
 bool Mapper_001::cpuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x6000 && addr <= 0x7FFF && prg_ram_bank_count > 0) // prg ram
+    if(addr >= 0x6000 && addr <= 0x7FFF && prg_ram_bank_count > 0) // prg (nv)ram
     {
         mapper_addr = 0x2000 * prg_ram_bank_idx + (addr & 0x1FFF);
-        memory_kind = MemoryKind::RAM;
+        memory_kind = prg_ram_kind;
         return true;
     }
     else if(addr >= 0x8000 && addr <= 0xBFFF) // prg rom, switchable or fixed to the first bank
@@ -135,10 +147,10 @@ bool Mapper_001::cpuMapWrite(uint16_t addr, uint8_t data, uint32_t& mapper_addr,
         }
     }
 
-    if(addr >= 0x6000 && addr <= 0x7FFF && prg_ram_bank_count > 0) // prg ram
+    if(addr >= 0x6000 && addr <= 0x7FFF && prg_ram_bank_count > 0) // prg (nv)ram
     {
         mapper_addr = 0x2000 * prg_ram_bank_idx + (addr & 0x1FFF);
-        memory_kind = MemoryKind::RAM;
+        memory_kind = prg_ram_kind;
         return true;
     }
     else if(addr >= 0x8000 && addr <= 0xBFFF) // prg rom, switchable or fixed to the first bank
@@ -158,32 +170,32 @@ bool Mapper_001::cpuMapWrite(uint16_t addr, uint8_t data, uint32_t& mapper_addr,
 
 bool Mapper_001::ppuMapRead(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x0000 && addr <= 0x0FFF && chr_rom_bank_count > 0) // chr rom, low bank
+    if(addr >= 0x0000 && addr <= 0x0FFF && chr_bank_count > 0) // chr rom, low bank
     {
-        mapper_addr = 0x1000 * chr_rom_lo_bank_idx + (addr & 0x0FFF);
-        memory_kind = MemoryKind::ROM;
+        mapper_addr = 0x1000 * chr_lo_bank_idx + (addr & 0x0FFF);
+        memory_kind = chr_mem_kind;
         return true;
     }
-    else if(addr >= 0x1000 && addr <= 0x1FFF && chr_rom_bank_count > 0) // chr rom, high bank
+    else if(addr >= 0x1000 && addr <= 0x1FFF && chr_bank_count > 0) // chr rom, high bank
     {
-        mapper_addr = 0x1000 * chr_rom_hi_bank_idx + (addr & 0x0FFF);
-        memory_kind = MemoryKind::ROM;
+        mapper_addr = 0x1000 * chr_hi_bank_idx + (addr & 0x0FFF);
+        memory_kind = chr_mem_kind;
         return true;
     }
     return false;
 }
 bool Mapper_001::ppuMapWrite(uint16_t addr, uint32_t& mapper_addr, MemoryKind& memory_kind)
 {
-    if(addr >= 0x0000 && addr <= 0x0FFF && chr_rom_bank_count > 0) // chr rom, low bank
+    if(addr >= 0x0000 && addr <= 0x0FFF && chr_bank_count > 0) // chr rom, low bank
     {
-        mapper_addr = 0x1000 * chr_rom_lo_bank_idx + (addr & 0x0FFF);
-        memory_kind = MemoryKind::ROM;
+        mapper_addr = 0x1000 * chr_lo_bank_idx + (addr & 0x0FFF);
+        memory_kind = chr_mem_kind;
         return true;
     }
-    else if(addr >= 0x1000 && addr <= 0x1FFF && chr_rom_bank_count > 0) // chr rom, high bank
+    else if(addr >= 0x1000 && addr <= 0x1FFF && chr_bank_count > 0) // chr rom, high bank
     {
-        mapper_addr = 0x1000 * chr_rom_hi_bank_idx + (addr & 0x0FFF);
-        memory_kind = MemoryKind::ROM;
+        mapper_addr = 0x1000 * chr_hi_bank_idx + (addr & 0x0FFF);
+        memory_kind = chr_mem_kind;
         return true;
     }
     return false;
@@ -229,12 +241,12 @@ void Mapper_001::update_values_from_registers()
 
     if((reg_Control & 0b1'0000) > 0) // CHR-ROM bank mode
     { // switch two separate 4 KB banks
-        chr_rom_lo_bank_idx = (reg_CHR0 & 0x1F);
-        chr_rom_hi_bank_idx = (reg_CHR1 & 0x1F);
+        chr_lo_bank_idx = (reg_CHR0 & 0x1F);
+        chr_hi_bank_idx = (reg_CHR1 & 0x1F);
     }
     else
     { // switch 8 KB at a time
-        chr_rom_lo_bank_idx = (reg_CHR0 & 0x1E);
-        chr_rom_hi_bank_idx = chr_rom_lo_bank_idx + 1;
+        chr_lo_bank_idx = (reg_CHR0 & 0x1E);
+        chr_hi_bank_idx = chr_lo_bank_idx + 1;
     }
 }

@@ -10,7 +10,8 @@ FNES::FNES() :
     setBackgroundColor(sf::Color(0x45467fFF));
     PixelCanvas::initFont();
 
-    cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K_C32K_S8K.nes");
+    cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K.nes");
+    // cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K_C32K_S8K.nes");
     //cart = std::make_shared<Cartridge>("resources/instr_misc.nes");
     //cart = std::make_shared<Cartridge>("resources/instr_timing.nes");
     //cart = std::make_shared<Cartridge>("resources/apu_mixer/square.nes");

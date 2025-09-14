@@ -51,9 +51,9 @@ void Cpu6502::clock()
             OP(60, RTS, IMP, 6) OP(61, ADC, IZX, 6) OP(62, STP, IMP, 2) OP(63, RRA, IZX, 8) OP(64, IGN, ZP0, 3) OP(65, ADC, ZP0, 3) OP(66, ROR, ZP0, 5) OP(67, RRA, ZP0, 5) OP(68, PLA, IMP, 4) OP(69, ADC, IMM, 2) OP(6A, AROR, IMP, 2) OP(6B, ARR, IMM, 2) OP(6C, JMP, IND, 5) OP(6D, ADC, ABS, 4) OP(6E, ROR, ABS, 6) OP(6F, RRA, ABS, 6)
             OP(70, BVS, REL, 2) OP(71, ADC, IZY, 5) OP(72, STP, IMP, 2) OP(73, RRA, IZY, 8) OP(74, IGN, ZPX, 4) OP(75, ADC, ZPX, 4) OP(76, ROR, ZPX, 6) OP(77, RRA, ZPX, 6) OP(78, SEI, IMP, 2) OP(79, ADC, ABY, 4) OP(7A,  NOP, IMP, 2) OP(7B, RRA, ABY, 7) OP(7C, IGN, ABX, 4) OP(7D, ADC, ABX, 4) OP(7E, ROR, ABX, 7) OP(7F, RRA, ABX, 7)
             OP(80, SKB, IMM, 2) OP(81, STA, IZX, 6) OP(82, SKB, IMM, 2) OP(83, SAX, IZX, 6) OP(84, STY, ZP0, 3) OP(85, STA, ZP0, 3) OP(86, STX, ZP0, 3) OP(87, SAX, ZP0, 3) OP(88, DEY, IMP, 2) OP(89, SKB, IMM, 2) OP(8A,  TXA, IMP, 2) OP(8B, XAA, IMM, 2) OP(8C, STY, ABS, 4) OP(8D, STA, ABS, 4) OP(8E, STX, ABS, 4) OP(8F, SAX, ABS, 4)
-            OP(90, BCC, REL, 2) OP(91, STA, IZY, 6) OP(92, STP, IMP, 2) OP(93, AHX, IZY, 6) OP(94, STY, ZPX, 4) OP(95, STA, ZPX, 4) OP(96, STX, ZPY, 4) OP(97, SAX, ZPY, 4) OP(98, TYA, IMP, 2) OP(99, STA, ABY, 5) OP(9A,  TXS, IMP, 2) OP(9B, XXX, IMP, 5) OP(9C, SHY, ABX, 5) OP(9D, STA, ABX, 5) OP(9E, SHX, ABY, 5) OP(9F, AHX, ABY, 5)
+            OP(90, BCC, REL, 2) OP(91, STA, IZY, 6) OP(92, STP, IMP, 2) OP(93, AHX, IZY, 6) OP(94, STY, ZPX, 4) OP(95, STA, ZPX, 4) OP(96, STX, ZPY, 4) OP(97, SAX, ZPY, 4) OP(98, TYA, IMP, 2) OP(99, STA, ABY, 5) OP(9A,  TXS, IMP, 2) OP(9B, TAS, ABY, 5) OP(9C, SHY, ABX, 5) OP(9D, STA, ABX, 5) OP(9E, SHX, ABY, 5) OP(9F, AHX, ABY, 5)
             OP(A0, LDY, IMM, 2) OP(A1, LDA, IZX, 6) OP(A2, LDX, IMM, 2) OP(A3, LAX, IZX, 6) OP(A4, LDY, ZP0, 3) OP(A5, LDA, ZP0, 3) OP(A6, LDX, ZP0, 3) OP(A7, LAX, ZP0, 3) OP(A8, TAY, IMP, 2) OP(A9, LDA, IMM, 2) OP(AA,  TAX, IMP, 2) OP(AB, LAX, IMM, 2) OP(AC, LDY, ABS, 4) OP(AD, LDA, ABS, 4) OP(AE, LDX, ABS, 4) OP(AF, LAX, ABS, 4)
-            OP(B0, BCS, REL, 2) OP(B1, LDA, IZY, 5) OP(B2, STP, IMP, 2) OP(B3, LAX, IZY, 5) OP(B4, LDY, ZPX, 4) OP(B5, LDA, ZPX, 4) OP(B6, LDX, ZPY, 4) OP(B7, LAX, ZPY, 4) OP(B8, CLV, IMP, 2) OP(B9, LDA, ABY, 4) OP(BA,  TSX, IMP, 2) OP(BB, XXX, IMP, 4) OP(BC, LDY, ABX, 4) OP(BD, LDA, ABX, 4) OP(BE, LDX, ABY, 4) OP(BF, LAX, ABY, 4)
+            OP(B0, BCS, REL, 2) OP(B1, LDA, IZY, 5) OP(B2, STP, IMP, 2) OP(B3, LAX, IZY, 5) OP(B4, LDY, ZPX, 4) OP(B5, LDA, ZPX, 4) OP(B6, LDX, ZPY, 4) OP(B7, LAX, ZPY, 4) OP(B8, CLV, IMP, 2) OP(B9, LDA, ABY, 4) OP(BA,  TSX, IMP, 2) OP(BB, LAS, ABY, 4) OP(BC, LDY, ABX, 4) OP(BD, LDA, ABX, 4) OP(BE, LDX, ABY, 4) OP(BF, LAX, ABY, 4)
             OP(C0, CPY, IMM, 2) OP(C1, CMP, IZX, 6) OP(C2, SKB, IMM, 2) OP(C3, DCP, IZX, 8) OP(C4, CPY, ZP0, 3) OP(C5, CMP, ZP0, 3) OP(C6, DEC, ZP0, 5) OP(C7, DCP, ZP0, 5) OP(C8, INY, IMP, 2) OP(C9, CMP, IMM, 2) OP(CA,  DEX, IMP, 2) OP(CB, AXS, IMM, 2) OP(CC, CPY, ABS, 4) OP(CD, CMP, ABS, 4) OP(CE, DEC, ABS, 6) OP(CF, DCP, ABS, 6)
             OP(D0, BNE, REL, 2) OP(D1, CMP, IZY, 5) OP(D2, STP, IMP, 2) OP(D3, DCP, IZY, 8) OP(D4, IGN, ZPX, 4) OP(D5, CMP, ZPX, 4) OP(D6, DEC, ZPX, 6) OP(D7, DCP, ZPX, 6) OP(D8, CLD, IMP, 2) OP(D9, CMP, ABY, 4) OP(DA,  NOP, IMP, 2) OP(DB, DCP, ABY, 7) OP(DC, IGN, ABX, 4) OP(DD, CMP, ABX, 4) OP(DE, DEC, ABX, 7) OP(DF, DCP, ABX, 7)
             OP(E0, CPX, IMM, 2) OP(E1, SBC, IZX, 6) OP(E2, SKB, IMM, 2) OP(E3, ISC, IZX, 8) OP(E4, CPX, ZP0, 3) OP(E5, SBC, ZP0, 3) OP(E6, INC, ZP0, 5) OP(E7, ISC, ZP0, 5) OP(E8, INX, IMP, 2) OP(E9, SBC, IMM, 2) OP(EA,  NOP, IMP, 2) OP(EB, SBC, IMM, 2) OP(EC, CPX, ABS, 4) OP(ED, SBC, ABS, 4) OP(EE, INC, ABS, 6) OP(EF, ISC, ABS, 6)
@@ -1172,6 +1172,40 @@ uint8_t Cpu6502::AHX()
     write(addr_abs, tmp);
 
     return 0;
+}
+
+uint8_t Cpu6502::TAS()
+{
+    uint8_t H = addr_abs_byte.high;
+
+    if(addr_page_boundary_crossed)
+    {   // Boundary crossed, SHX goes unstable
+        // NOTE: H was incremented in ABX as part of normal operation
+        addr_abs = (addr_abs & 0x00FF) | (addr_abs & 0xFF00 & (reg_X << 8));
+    }
+    else
+    {
+        ++H;
+    }
+
+    reg_SP = reg_A & reg_X;
+
+    const uint8_t magic = 0xF5; // Magic constant, could be anything
+    uint8_t tmp = reg_A & (reg_X | magic) & H;
+    write(addr_abs, tmp);
+    return 0;
+}
+
+uint8_t Cpu6502::LAS()
+{
+    fetch();
+    reg_A = fetched & reg_SP;
+    reg_X = fetched & reg_SP;
+    reg_SP = fetched & reg_SP;
+    flag.N = (reg_X & 0x80) > 0;
+    flag.Z = reg_X == 0;
+
+    return 1;
 }
 
 uint8_t Cpu6502::XXX()

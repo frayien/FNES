@@ -57,7 +57,7 @@ void Cpu6502::clock()
             OP(90, BCC, REL, 2) OP(91, STA, IZY, 6) OP(92, STP, IMP, 2) OP(93, XXX, IMP, 6) OP(94, STY, ZPX, 4) OP(95, STA, ZPX, 4) OP(96, STX, ZPY, 4) OP(97, SAX, ZPY, 4) OP(98, TYA, IMP, 2) OP(99, STA, ABY, 5) OP(9A,  TXS, IMP, 2) OP(9B, XXX, IMP, 5) OP(9C, XXX, IMP, 5) OP(9D, STA, ABX, 5) OP(9E, XXX, IMP, 5) OP(9F, XXX, IMP, 5)
             OP(A0, LDY, IMM, 2) OP(A1, LDA, IZX, 6) OP(A2, LDX, IMM, 2) OP(A3, LAX, IZX, 6) OP(A4, LDY, ZP0, 3) OP(A5, LDA, ZP0, 3) OP(A6, LDX, ZP0, 3) OP(A7, LAX, ZP0, 3) OP(A8, TAY, IMP, 2) OP(A9, LDA, IMM, 2) OP(AA,  TAX, IMP, 2) OP(AB, XXX, IMP, 2) OP(AC, LDY, ABS, 4) OP(AD, LDA, ABS, 4) OP(AE, LDX, ABS, 4) OP(AF, LAX, ABS, 4)
             OP(B0, BCS, REL, 2) OP(B1, LDA, IZY, 5) OP(B2, STP, IMP, 2) OP(B3, LAX, IZY, 5) OP(B4, LDY, ZPX, 4) OP(B5, LDA, ZPX, 4) OP(B6, LDX, ZPY, 4) OP(B7, LAX, ZPY, 4) OP(B8, CLV, IMP, 2) OP(B9, LDA, ABY, 4) OP(BA,  TSX, IMP, 2) OP(BB, XXX, IMP, 4) OP(BC, LDY, ABX, 4) OP(BD, LDA, ABX, 4) OP(BE, LDX, ABY, 4) OP(BF, LAX, ABY, 4)
-            OP(C0, CPY, IMM, 2) OP(C1, CMP, IZX, 6) OP(C2, SKB, IMM, 2) OP(C3, DCP, IZX, 8) OP(C4, CPY, ZP0, 3) OP(C5, CMP, ZP0, 3) OP(C6, DEC, ZP0, 5) OP(C7, DCP, ZP0, 5) OP(C8, INY, IMP, 2) OP(C9, CMP, IMM, 2) OP(CA,  DEX, IMP, 2) OP(CB, XXX, IMP, 2) OP(CC, CPY, ABS, 4) OP(CD, CMP, ABS, 4) OP(CE, DEC, ABS, 6) OP(CF, DCP, ABS, 6)
+            OP(C0, CPY, IMM, 2) OP(C1, CMP, IZX, 6) OP(C2, SKB, IMM, 2) OP(C3, DCP, IZX, 8) OP(C4, CPY, ZP0, 3) OP(C5, CMP, ZP0, 3) OP(C6, DEC, ZP0, 5) OP(C7, DCP, ZP0, 5) OP(C8, INY, IMP, 2) OP(C9, CMP, IMM, 2) OP(CA,  DEX, IMP, 2) OP(CB, AXS, IMM, 2) OP(CC, CPY, ABS, 4) OP(CD, CMP, ABS, 4) OP(CE, DEC, ABS, 6) OP(CF, DCP, ABS, 6)
             OP(D0, BNE, REL, 2) OP(D1, CMP, IZY, 5) OP(D2, STP, IMP, 2) OP(D3, DCP, IZY, 8) OP(D4, IGN, ZPX, 4) OP(D5, CMP, ZPX, 4) OP(D6, DEC, ZPX, 6) OP(D7, DCP, ZPX, 6) OP(D8, CLD, IMP, 2) OP(D9, CMP, ABY, 4) OP(DA,  NOP, IMP, 2) OP(DB, DCP, ABY, 7) OP(DC, IGN, ABX, 4) OP(DD, CMP, ABX, 4) OP(DE, DEC, ABX, 7) OP(DF, DCP, ABX, 7)
             OP(E0, CPX, IMM, 2) OP(E1, SBC, IZX, 6) OP(E2, SKB, IMM, 2) OP(E3, ISC, IZX, 8) OP(E4, CPX, ZP0, 3) OP(E5, SBC, ZP0, 3) OP(E6, INC, ZP0, 5) OP(E7, ISC, ZP0, 5) OP(E8, INX, IMP, 2) OP(E9, SBC, IMM, 2) OP(EA,  NOP, IMP, 2) OP(EB, XXX, IMP, 2) OP(EC, CPX, ABS, 4) OP(ED, SBC, ABS, 4) OP(EE, INC, ABS, 6) OP(EF, ISC, ABS, 6)
             OP(F0, BEQ, REL, 2) OP(F1, SBC, IZY, 5) OP(F2, STP, IMP, 2) OP(F3, ISC, IZY, 8) OP(F4, IGN, ZPX, 4) OP(F5, SBC, ZPX, 4) OP(F6, INC, ZPX, 6) OP(F7, ISC, ZPX, 6) OP(F8, SED, IMP, 2) OP(F9, SBC, ABY, 4) OP(FA,  NOP, IMP, 2) OP(FB, ISC, ABY, 7) OP(FC, IGN, ABX, 4) OP(FD, SBC, ABX, 4) OP(FE, INC, ABX, 7) OP(FF, ISC, ABX, 7)
@@ -957,6 +957,13 @@ uint8_t Cpu6502::ARR()
 
 uint8_t Cpu6502::AXS()
 {
+    fetch();
+    uint8_t tmp = reg_A & reg_X;
+    reg_X = tmp - fetched;
+    flag.N = (reg_X & 0b1000'0000) > 0;
+    flag.Z = tmp == fetched;
+    flag.C = tmp >= fetched;
+
     return 0;
 }
 

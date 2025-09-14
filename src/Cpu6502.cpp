@@ -48,7 +48,7 @@ void Cpu6502::clock()
             OP(10, BPL, REL, 2) OP(11, ORA, IZY, 5) OP(12, STP, IMP, 2) OP(13, SLO, IZY, 8) OP(14, IGN, ZPX, 4) OP(15, ORA, ZPX, 4) OP(16, ASL, ZPX, 6) OP(17, SLO, ZPX, 6) OP(18, CLC, IMP, 2) OP(19, ORA, ABY, 4) OP(1A,  NOP, IMP, 2) OP(1B, SLO, ABY, 7) OP(1C, IGN, ABX, 4) OP(1D, ORA, ABX, 4) OP(1E, ASL, ABX, 7) OP(1F, SLO, ABX, 7)
             OP(20, JSR, ABS, 6) OP(21, AND, IZX, 6) OP(22, STP, IMP, 2) OP(23, RLA, IZX, 8) OP(24, BIT, ZP0, 3) OP(25, AND, ZP0, 3) OP(26, ROL, ZP0, 5) OP(27, RLA, ZP0, 5) OP(28, PLP, IMP, 4) OP(29, AND, IMM, 2) OP(2A, AROL, IMP, 2) OP(2B, ANC, IMM, 2) OP(2C, BIT, ABS, 4) OP(2D, AND, ABS, 4) OP(2E, ROL, ABS, 6) OP(2F, RLA, ABS, 6)
             OP(30, BMI, REL, 2) OP(31, AND, IZY, 5) OP(32, STP, IMP, 2) OP(33, RLA, IZY, 8) OP(34, IGN, ZPX, 4) OP(35, AND, ZPX, 4) OP(36, ROL, ZPX, 6) OP(37, RLA, ZPX, 6) OP(38, SEC, IMP, 2) OP(39, AND, ABY, 4) OP(3A,  NOP, IMP, 2) OP(3B, RLA, ABY, 7) OP(3C, IGN, ABX, 4) OP(3D, AND, ABX, 4) OP(3E, ROL, ABX, 7) OP(3F, RLA, ABX, 7)
-            OP(40, RTI, IMP, 6) OP(41, EOR, IZX, 6) OP(42, STP, IMP, 2) OP(43, SRE, IZX, 8) OP(44, IGN, ZP0, 3) OP(45, EOR, ZP0, 3) OP(46, LSR, ZP0, 5) OP(47, SRE, ZP0, 5) OP(48, PHA, IMP, 3) OP(49, EOR, IMM, 2) OP(4A, ALSR, IMP, 2) OP(4B, XXX, IMP, 2) OP(4C, JMP, ABS, 3) OP(4D, EOR, ABS, 4) OP(4E, LSR, ABS, 6) OP(4F, SRE, ABS, 6)
+            OP(40, RTI, IMP, 6) OP(41, EOR, IZX, 6) OP(42, STP, IMP, 2) OP(43, SRE, IZX, 8) OP(44, IGN, ZP0, 3) OP(45, EOR, ZP0, 3) OP(46, LSR, ZP0, 5) OP(47, SRE, ZP0, 5) OP(48, PHA, IMP, 3) OP(49, EOR, IMM, 2) OP(4A, ALSR, IMP, 2) OP(4B, ALR, IMM, 2) OP(4C, JMP, ABS, 3) OP(4D, EOR, ABS, 4) OP(4E, LSR, ABS, 6) OP(4F, SRE, ABS, 6)
             OP(50, BVC, REL, 2) OP(51, EOR, IZY, 5) OP(52, STP, IMP, 2) OP(53, SRE, IZY, 8) OP(54, IGN, ZPX, 4) OP(55, EOR, ZPX, 4) OP(56, LSR, ZPX, 6) OP(57, SRE, ZPX, 6) OP(58, CLI, IMP, 2) OP(59, EOR, ABY, 4) OP(5A,  NOP, IMP, 2) OP(5B, SRE, ABY, 7) OP(5C, IGN, ABX, 4) OP(5D, EOR, ABX, 4) OP(5E, LSR, ABX, 7) OP(5F, SRE, ABX, 7)
             OP(60, RTS, IMP, 6) OP(61, ADC, IZX, 6) OP(62, STP, IMP, 2) OP(63, RRA, IZX, 8) OP(64, IGN, ZP0, 3) OP(65, ADC, ZP0, 3) OP(66, ROR, ZP0, 5) OP(67, RRA, ZP0, 5) OP(68, PLA, IMP, 4) OP(69, ADC, IMM, 2) OP(6A, AROR, IMP, 2) OP(6B, XXX, IMP, 2) OP(6C, JMP, IND, 5) OP(6D, ADC, ABS, 4) OP(6E, ROR, ABS, 6) OP(6F, RRA, ABS, 6)
             OP(70, BVS, REL, 2) OP(71, ADC, IZY, 5) OP(72, STP, IMP, 2) OP(73, RRA, IZY, 8) OP(74, IGN, ZPX, 4) OP(75, ADC, ZPX, 4) OP(76, ROR, ZPX, 6) OP(77, RRA, ZPX, 6) OP(78, SEI, IMP, 2) OP(79, ADC, ABY, 4) OP(7A,  NOP, IMP, 2) OP(7B, RRA, ABY, 7) OP(7C, IGN, ABX, 4) OP(7D, ADC, ABX, 4) OP(7E, ROR, ABX, 7) OP(7F, RRA, ABX, 7)
@@ -913,6 +913,15 @@ uint8_t Cpu6502::TYA()
 
 uint8_t Cpu6502::ALR()
 {
+    fetch();
+    // AND
+    reg_A = reg_A & fetched;
+    // ALSR
+    flag.C = reg_A & 0b0000'0001;
+    reg_A = reg_A >> 1;
+    flag.N = 0;
+    flag.Z = reg_A == 0;
+
     return 0;
 }
 

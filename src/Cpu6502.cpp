@@ -1207,8 +1207,3 @@ uint8_t Cpu6502::LAS()
 
     return 1;
 }
-
-uint8_t Cpu6502::XXX()
-{
-    return 0;
-}

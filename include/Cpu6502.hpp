@@ -88,7 +88,6 @@ public:
     inline uint8_t SKB(); inline uint8_t IGN(); inline uint8_t STP(); inline uint8_t XAA();
     inline uint8_t SHX(); inline uint8_t SHY(); inline uint8_t AHX(); inline uint8_t TAS();
     inline uint8_t LAS();
-    inline uint8_t XXX();
 
     void clock();
 

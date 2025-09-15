@@ -10,8 +10,8 @@ FNES::FNES() :
     setBackgroundColor(sf::Color(0x45467fFF));
     PixelCanvas::initFont();
 
-    cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K.nes");
-    // cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K_C32K_S8K.nes");
+    //cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K.nes");
+    //cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K_C32K_S8K.nes");
     //cart = std::make_shared<Cartridge>("resources/instr_misc.nes");
     //cart = std::make_shared<Cartridge>("resources/instr_timing.nes");
     //cart = std::make_shared<Cartridge>("resources/apu_mixer/square.nes");
@@ -19,7 +19,7 @@ FNES::FNES() :
     //cart = std::make_shared<Cartridge>("resources/instr_test-v5/official_only.nes");
     //cart = std::make_shared<Cartridge>("resources/nestest.nes");
     //cart = std::make_shared<Cartridge>("resources/color_test.nes");
-    //cart = std::make_shared<Cartridge>("resources/AccuracyCoin.nes");
+     cart = std::make_shared<Cartridge>("resources/AccuracyCoin.nes");
     //cart = std::make_shared<Cartridge>("resources/Super Mario Bros. (World).nes");
     //cart = std::make_shared<Cartridge>("resources/Donkey Kong (JU) [p1].nes");
     //cart = std::make_shared<Cartridge>("resources/Chip 'n Dale - Rescue Rangers 2 (Europe).nes");
@@ -202,11 +202,11 @@ void FNES::drawCode(uint16_t x, uint16_t y)
 void FNES::drawSprite(uint16_t x, uint16_t y, int s, int e)
 {
     for(int i = s; i<e; ++i)
-        gui.drawString(x, y + (i-s)*12, 
+        gui.drawString(x, y + (i-s)*12,
           std::string(nes.ppu.OAM[i].id > 0x00 && nes.ppu.OAM[i].y < 0xEF ? "\\g" : "\\r") + std::string(i<10 ? " " : "") + std::to_string(i) + "\\w "
-        + "" + hex(nes.ppu.OAM[i].id, 2) + " " 
-        + hex(nes.ppu.OAM[i].x, 2) + "," 
-        + hex(nes.ppu.OAM[i].y, 2) 
+        + "" + hex(nes.ppu.OAM[i].id, 2) + " "
+        + hex(nes.ppu.OAM[i].x, 2) + ","
+        + hex(nes.ppu.OAM[i].y, 2)
         + " " + hex(nes.ppu.OAM[i].attribute & 0x03, 1)
         + std::string((nes.ppu.OAM[i].attribute & 0x20) > 0 ? "\\g" : "\\r") + "P\\w"
         + std::string((nes.ppu.OAM[i].attribute & 0x40) > 0 ? "\\g" : "\\r") + "H\\w"

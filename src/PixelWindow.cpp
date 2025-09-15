@@ -1,6 +1,6 @@
 #include "PixelWindow.hpp"
 
-PixelWindow::PixelWindow(uint16_t x, uint16_t y, sf::String const& title) : 
+PixelWindow::PixelWindow(uint16_t x, uint16_t y, sf::String const& title) :
     size_x(x), size_y(y),
     render_thread(&PixelWindow::renderThread, this),
     m_stop_interupt(false),

@@ -54,7 +54,7 @@ public:
             uint8_t high : 8;
         } reg_PC_byte;
     };
-    
+
     // Adressing Modes
     inline uint8_t IMP(); inline uint8_t IMM();
     inline uint8_t ZP0(); inline uint8_t ZPX();
@@ -73,10 +73,10 @@ public:
     inline uint8_t INC(); inline uint8_t INX(); inline uint8_t INY(); inline uint8_t JMP();
     inline uint8_t JSR(); inline uint8_t LDA(); inline uint8_t LDX(); inline uint8_t LDY();
     inline uint8_t LSR(); inline uint8_t NOP(); inline uint8_t ORA(); inline uint8_t PHA();
-    inline uint8_t PHP(); inline uint8_t PLA(); inline uint8_t PLP(); inline uint8_t ROL(); 
+    inline uint8_t PHP(); inline uint8_t PLA(); inline uint8_t PLP(); inline uint8_t ROL();
     inline uint8_t ROR(); inline uint8_t RTI(); inline uint8_t RTS(); inline uint8_t SBC();
-    inline uint8_t SEC(); inline uint8_t SED(); inline uint8_t SEI(); inline uint8_t STA(); 
-    inline uint8_t STX(); inline uint8_t STY(); inline uint8_t TAX(); inline uint8_t TAY(); 
+    inline uint8_t SEC(); inline uint8_t SED(); inline uint8_t SEI(); inline uint8_t STA();
+    inline uint8_t STX(); inline uint8_t STY(); inline uint8_t TAX(); inline uint8_t TAY();
     inline uint8_t TSX(); inline uint8_t TXA(); inline uint8_t TXS(); inline uint8_t TYA();
 
     inline uint8_t AASL(); inline uint8_t ALSR(); inline uint8_t AROL(); inline uint8_t AROR();
@@ -108,9 +108,8 @@ public:
             uint8_t low : 8;
             uint8_t high : 8;
         } addr_abs_byte;
-        
     };
-    
+
     uint8_t addr_page_boundary_crossed = false;
     uint8_t addr_page_boundary_extra_cycle = false;
 

@@ -104,7 +104,7 @@ void Bus::clock()
                 {
                     dma_data = cpuRead(dma_page << 8 | dma_addr);
                 }
-                else // write to ppu 
+                else // write to ppu
                 {
                     ppu.OAM_ptr[dma_addr] = dma_data;
                     dma_addr++;
@@ -133,6 +133,6 @@ void Bus::clock()
         ppu.nmi = false;
         cpu.nmi();
     }
-    
+
     system_clock_counter++;
 }

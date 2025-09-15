@@ -138,7 +138,7 @@ void Cpu6502::nmi()
     cycles = 8;
 }
 
-// Addressing Modes 
+// Addressing Modes
 
 uint8_t Cpu6502::IMP()
 {
@@ -361,7 +361,7 @@ uint8_t Cpu6502::BCC()
     return 0;
 }
 
-uint8_t Cpu6502::BCS() 
+uint8_t Cpu6502::BCS()
 {
     if(flag.C)
     {
@@ -373,7 +373,7 @@ uint8_t Cpu6502::BCS()
         reg_PC = addr_abs;
     }
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BEQ()
 {
@@ -387,7 +387,7 @@ uint8_t Cpu6502::BEQ()
         reg_PC = addr_abs;
     }
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BIT()
 {
@@ -512,11 +512,11 @@ uint8_t Cpu6502::CLI()
     return 0;
 }
 
-uint8_t Cpu6502::CLV() 
+uint8_t Cpu6502::CLV()
 {
     flag.V = 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::CMP()
 {
@@ -526,7 +526,7 @@ uint8_t Cpu6502::CMP()
     flag.Z = reg_A == fetched;
     flag.C = reg_A >= fetched;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::CPX()
 {

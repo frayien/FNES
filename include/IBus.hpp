@@ -21,7 +21,7 @@ public:
 
     struct OPCODE
 	{
-		std::string instruction;		
+		std::string instruction;
 		std::string addrmode;
 		uint8_t cycles = 0;
 	};

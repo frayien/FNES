@@ -525,7 +525,7 @@ uint8_t Cpu6502::CMP()
     flag.N = (tmp & 0b1000'0000) > 0;
     flag.Z = reg_A == fetched;
     flag.C = reg_A >= fetched;
-    return 0;
+    return 1;
 }
 
 uint8_t Cpu6502::CPX()

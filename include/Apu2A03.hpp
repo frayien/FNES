@@ -14,7 +14,7 @@ public:
         j = j - (int) j;
         return 20.785 * j * (j - 0.5) * (j - 1.0f);
     }
-    
+
 public:
     struct envelope
     {
@@ -114,7 +114,7 @@ public:
         void clock()
         {
             if(!(length_counter == 0 || halt_flag))
-            { 
+            {
                 length_counter--;
             }
         }
@@ -145,7 +145,7 @@ public:
 
                 out *= (2.0 / pi) * (a -b);
             }
-            
+
         }
     };
 
@@ -266,7 +266,7 @@ public:
         void clockHalf()
         {
             if(!(length_counter == 0 || length_counter_halt))
-            { 
+            {
                 length_counter--;
             }
         }
@@ -313,7 +313,7 @@ public:
         void clockHalf()
         {
             if(!(length_counter == 0 || length_counter_halt))
-            { 
+            {
                 length_counter--;
             }
         }
@@ -374,7 +374,7 @@ private:
         uint16_t rate_couter = 0x0000;
 
         bool silence = false;
-        
+
 public:
         void update(Apu2A03* apu)
         {
@@ -453,8 +453,8 @@ public:
             }
         }
     };
-    
-    
+
+
 
 public:
     Apu2A03();

@@ -230,7 +230,7 @@ uint8_t Cpu6502::IND()
             uint8_t low : 8;
             uint8_t high : 8;
         } ptr_byte;
-        
+
     };
 
     ptr_byte.low = read(reg_PC);
@@ -255,7 +255,7 @@ uint8_t Cpu6502::IZX()
             uint8_t low : 8;
             uint8_t high : 8;
         } ptr_byte;
-        
+
     };
 
     ptr_byte.low = read(reg_PC);
@@ -279,7 +279,7 @@ uint8_t Cpu6502::IZY()
             uint8_t low : 8;
             uint8_t high : 8;
         } ptr_byte;
-        
+
     };
 
     ptr_byte.low = read(reg_PC);
@@ -302,7 +302,7 @@ uint8_t Cpu6502::fetch()
     return fetched;
 }
 
-uint8_t Cpu6502::ADC() 
+uint8_t Cpu6502::ADC()
 {
     fetch();
     uint16_t tmp = reg_A + fetched + flag.C;
@@ -335,7 +335,7 @@ uint8_t Cpu6502::ASL()
     write(addr_abs, fetched);
 
     return 0;
-} 
+}
 
 uint8_t Cpu6502::AASL()
 {
@@ -345,7 +345,7 @@ uint8_t Cpu6502::AASL()
     flag.Z = reg_A == 0;
 
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BCC()
 {
@@ -397,7 +397,7 @@ uint8_t Cpu6502::BIT()
     flag.V = (fetched & 0b0100'0000) > 0;
     flag.Z = tmp == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BMI()
 {
@@ -413,7 +413,7 @@ uint8_t Cpu6502::BMI()
     return 0;
 }
 
-uint8_t Cpu6502::BNE() 
+uint8_t Cpu6502::BNE()
 {
     if(!flag.Z)
     {
@@ -425,7 +425,7 @@ uint8_t Cpu6502::BNE()
         reg_PC = addr_abs;
     }
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BPL()
 {
@@ -439,7 +439,7 @@ uint8_t Cpu6502::BPL()
         reg_PC = addr_abs;
     }
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BRK()
 {
@@ -464,7 +464,7 @@ uint8_t Cpu6502::BRK()
     reg_PC_byte.high = read(addr_abs + 1);
 
     return 0;
-} 
+}
 
 uint8_t Cpu6502::BVC()
 {
@@ -480,7 +480,7 @@ uint8_t Cpu6502::BVC()
     return 0;
 }
 
-uint8_t Cpu6502::BVS() 
+uint8_t Cpu6502::BVS()
 {
     if(flag.V)
     {
@@ -492,19 +492,19 @@ uint8_t Cpu6502::BVS()
         reg_PC = addr_abs;
     }
     return 0;
-} 
+}
 
 uint8_t Cpu6502::CLC()
 {
     flag.C = 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::CLD()
 {
     flag.D = 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::CLI()
 {
@@ -536,7 +536,7 @@ uint8_t Cpu6502::CPX()
     flag.Z = reg_X == fetched;
     flag.C = reg_X >= fetched;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::CPY()
 {
@@ -548,7 +548,7 @@ uint8_t Cpu6502::CPY()
     return 0;
 }
 
-uint8_t Cpu6502::DEC() 
+uint8_t Cpu6502::DEC()
 {
     fetch();
     fetched--;
@@ -556,7 +556,7 @@ uint8_t Cpu6502::DEC()
     flag.N = (fetched & 0x80) > 0;
     flag.Z = fetched == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::DEX()
 {
@@ -564,7 +564,7 @@ uint8_t Cpu6502::DEX()
     flag.N = (reg_X & 0x80) > 0;
     flag.Z = reg_X == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::DEY()
 {
@@ -572,7 +572,7 @@ uint8_t Cpu6502::DEY()
     flag.N = (reg_Y & 0x80) > 0;
     flag.Z = reg_Y == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::EOR()
 {
@@ -583,7 +583,7 @@ uint8_t Cpu6502::EOR()
     return 1;
 }
 
-uint8_t Cpu6502::INC() 
+uint8_t Cpu6502::INC()
 {
     fetch();
     fetched++;
@@ -591,7 +591,7 @@ uint8_t Cpu6502::INC()
     flag.N = (fetched & 0x80) > 0;
     flag.Z = fetched == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::INX()
 {
@@ -599,7 +599,7 @@ uint8_t Cpu6502::INX()
     flag.N = (reg_X & 0x80) > 0;
     flag.Z = reg_X == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::INY()
 {
@@ -607,7 +607,7 @@ uint8_t Cpu6502::INY()
     flag.N = (reg_Y & 0x80) > 0;
     flag.Z = reg_Y == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::JMP()
 {
@@ -615,7 +615,7 @@ uint8_t Cpu6502::JMP()
     return 0;
 }
 
-uint8_t Cpu6502::JSR() 
+uint8_t Cpu6502::JSR()
 {
     reg_PC--;
 
@@ -626,7 +626,7 @@ uint8_t Cpu6502::JSR()
 
     reg_PC = addr_abs;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::LDA()
 {
@@ -635,7 +635,7 @@ uint8_t Cpu6502::LDA()
     flag.N = (reg_A & 0x80) > 0;
     flag.Z = reg_A == 0;
     return 1;
-} 
+}
 
 uint8_t Cpu6502::LDX()
 {
@@ -644,7 +644,7 @@ uint8_t Cpu6502::LDX()
     flag.N = (reg_X & 0x80) > 0;
     flag.Z = reg_X == 0;
     return 1;
-} 
+}
 
 uint8_t Cpu6502::LDY()
 {
@@ -655,7 +655,7 @@ uint8_t Cpu6502::LDY()
     return 1;
 }
 
-uint8_t Cpu6502::LSR() 
+uint8_t Cpu6502::LSR()
 {
     fetch();
     flag.C = fetched & 0b0000'0001;
@@ -664,21 +664,21 @@ uint8_t Cpu6502::LSR()
     flag.N = 0;
     flag.Z = fetched == 0;
     return 0;
-} 
+}
 
-uint8_t Cpu6502::ALSR() 
+uint8_t Cpu6502::ALSR()
 {
     flag.C = reg_A & 0b0000'0001;
     reg_A = reg_A >> 1;
     flag.N = 0;
     flag.Z = reg_A == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::NOP()
 {
 	return 0;
-} 
+}
 
 uint8_t Cpu6502::ORA()
 {
@@ -687,7 +687,7 @@ uint8_t Cpu6502::ORA()
     flag.N = (reg_A & 0x80) > 0;
     flag.Z = reg_A == 0;
     return 1;
-} 
+}
 
 uint8_t Cpu6502::PHA()
 {
@@ -696,7 +696,7 @@ uint8_t Cpu6502::PHA()
     return 0;
 }
 
-uint8_t Cpu6502::PHP() 
+uint8_t Cpu6502::PHP()
 {
     flag.B = 1;
     flag.U = 1;
@@ -707,7 +707,7 @@ uint8_t Cpu6502::PHP()
     flag.U = 0;
 
     return 0;
-} 
+}
 
 uint8_t Cpu6502::PLA()
 {
@@ -716,7 +716,7 @@ uint8_t Cpu6502::PLA()
     flag.Z = reg_A == 0;
     flag.N = (reg_A & 0x80) > 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::PLP()
 {
@@ -724,7 +724,7 @@ uint8_t Cpu6502::PLP()
     reg_status = read(0x0100 + reg_SP);
     flag.U = 1;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::ROL()
 {
@@ -738,7 +738,7 @@ uint8_t Cpu6502::ROL()
     write(addr_abs, fetched);
 
     return 0;
-} 
+}
 
 uint8_t Cpu6502::AROL()
 {
@@ -750,9 +750,9 @@ uint8_t Cpu6502::AROL()
     flag.Z = reg_A == 0;
 
     return 0;
-} 
+}
 
-uint8_t Cpu6502::ROR() 
+uint8_t Cpu6502::ROR()
 {
     fetch();
     uint8_t tmp = flag.C << 7;
@@ -762,11 +762,11 @@ uint8_t Cpu6502::ROR()
     flag.N = (fetched & 0x80) > 0;
     flag.Z = fetched == 0;
     write(addr_abs, fetched);
-    
-    return 0;
-} 
 
-uint8_t Cpu6502::AROR() 
+    return 0;
+}
+
+uint8_t Cpu6502::AROR()
 {
     uint8_t tmp = flag.C << 7;
     flag.C = reg_A & 0b0000'0001;
@@ -774,9 +774,9 @@ uint8_t Cpu6502::AROR()
     reg_A |= tmp;
     flag.N = (reg_A & 0x80) > 0;
     flag.Z = reg_A == 0;
-    
+
     return 0;
-} 
+}
 
 uint8_t Cpu6502::RTI()
 {
@@ -792,7 +792,7 @@ uint8_t Cpu6502::RTI()
     reg_SP++;
     reg_PC_byte.high = read(0x0100 + reg_SP);
     return 0;
-} 
+}
 
 uint8_t Cpu6502::RTS()
 {
@@ -805,13 +805,13 @@ uint8_t Cpu6502::RTS()
     reg_PC++;
 
     return 0;
-} 
+}
 
 uint8_t Cpu6502::SBC()
 {
     fetch();
     fetched = ~fetched;
-    
+
     uint16_t tmp = reg_A + fetched + flag.C;
 
     flag.N = (tmp & 0x0080) > 0;
@@ -824,41 +824,41 @@ uint8_t Cpu6502::SBC()
     return 1;
 }
 
-uint8_t Cpu6502::SEC() 
+uint8_t Cpu6502::SEC()
 {
     flag.C = 1;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::SED()
 {
     flag.D = 1;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::SEI()
 {
     flag.I = 1;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::STA()
 {
     write(addr_abs, reg_A);
     return 0;
-} 
+}
 
-uint8_t Cpu6502::STX() 
+uint8_t Cpu6502::STX()
 {
     write(addr_abs, reg_X);
     return 0;
-} 
+}
 
 uint8_t Cpu6502::STY()
 {
     write(addr_abs, reg_Y);
     return 0;
-} 
+}
 
 uint8_t Cpu6502::TAX()
 {
@@ -866,7 +866,7 @@ uint8_t Cpu6502::TAX()
     flag.N = (reg_X & 0x80) > 0;
     flag.Z = reg_X == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::TAY()
 {
@@ -874,15 +874,15 @@ uint8_t Cpu6502::TAY()
     flag.N = (reg_Y & 0x80) > 0;
     flag.Z = reg_Y == 0;
     return 0;
-} 
+}
 
-uint8_t Cpu6502::TSX() 
+uint8_t Cpu6502::TSX()
 {
     reg_X = reg_SP;
     flag.N = (reg_X & 0x80) > 0;
     flag.Z = reg_X == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::TXA()
 {
@@ -890,13 +890,13 @@ uint8_t Cpu6502::TXA()
     flag.N = (reg_A & 0x80) > 0;
     flag.Z = reg_A == 0;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::TXS()
 {
     reg_SP = reg_X;
     return 0;
-} 
+}
 
 uint8_t Cpu6502::TYA()
 {
@@ -1006,7 +1006,7 @@ uint8_t Cpu6502::ISC()
     write(addr_abs, fetched);
     // SBC
     fetched = ~fetched;
-    
+
     uint16_t tmp = reg_A + fetched + flag.C;
 
     flag.N = (tmp & 0x0080) > 0;

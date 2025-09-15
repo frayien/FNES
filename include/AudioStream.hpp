@@ -14,7 +14,7 @@ public:
     virtual void onSeek(sf::Time timeOffset) override;
 
 
-    inline void push(int16_t sample) 
+    inline void push(int16_t sample)
     {
         buffer[write_buffer_pos] = sample;
         write_buffer_pos++;

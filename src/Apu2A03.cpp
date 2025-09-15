@@ -40,7 +40,7 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
     case 0x4003: // Pulse 1, timer hi & length counter
         pulse_1.reload_hi = data & 0x07;
         pulse_1.timer = pulse_1.reload;
-        if(pulse_1.enabled) 
+        if(pulse_1.enabled)
         {
             pulse_1.length_counter_reload = length_counter_values[(data & 0xF8) >> 3];
             pulse_1.length_counter = pulse_1.length_counter_reload;
@@ -137,7 +137,7 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
     case 0x4015: // All, Channel enable and length counter status
         pulse_1.enabled = data & 0x01;
         if(!pulse_1.enabled) pulse_1.length_counter = 0;
-        
+
         pulse_2.enabled = (data & 0x02) > 0;
         if(!pulse_2.enabled) pulse_2.length_counter = 0;
 
@@ -150,7 +150,7 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
         dmc.enabled = (data & 0x10) > 0;
         if(!dmc.enabled) dmc.sample_byte_remaining = 0;
         dmc.irq = false;
-        
+
         break;
 
     case 0x4017: // All, frame counter
@@ -244,7 +244,7 @@ void Apu2A03::clock()
 
         noise.update();
         dmc.update(this);
-        
+
     }
     clock_counter++;
 
@@ -274,7 +274,7 @@ int16_t Apu2A03::getSample()
 
     float output_pulse  = 0.00752 * (output_pulse_1 + output_pulse_2);
 
-    float output_triangle = 1.0f; 
+    float output_triangle = 1.0f;
     triangle.sample(output_triangle, time);
 
     float output_noise = 1.0f;

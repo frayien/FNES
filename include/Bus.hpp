@@ -4,9 +4,9 @@
  * @brief Bus emulation for the FNES Emulator
  * @version 0.1
  * @date 2020-10-31
- * 
+ *
  * @copyright Copyright (c) 2020
- * 
+ *
  */
 
 #pragma once
@@ -53,7 +53,7 @@ public:
     std::shared_ptr<Cartridge> cart;
 
     Controller controller[2] = { { 0 }, { 0 } };
-    
+
     // Bus read and write
     virtual uint8_t cpuRead(uint16_t addr, bool read_only = false) override;
     virtual void cpuWrite(uint16_t addr, uint8_t data) override;

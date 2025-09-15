@@ -256,7 +256,7 @@ void Ppu2C02::clock()
                 bg_next_tile_id = ppuRead(0x2000 | (vram_addr.reg & 0x0FFF));
                 break;
             case 2:
-                bg_next_tile_attrib = ppuRead(0x23C0 
+                bg_next_tile_attrib = ppuRead(0x23C0
                     | (vram_addr.nametable_y << 11)
                     | (vram_addr.nametable_x << 10)
                     | ((vram_addr.coarse_y >> 2) << 3)
@@ -361,14 +361,14 @@ void Ppu2C02::clock()
                     { // Sprite NOT flipped
                         if(scanline - spriteScanline[i].y < 8)
                         { // top half
-                            sprite_pattern_addr_lo = 
+                            sprite_pattern_addr_lo =
                                 ((spriteScanline[i].id & 0x01) << 12)
                                 | ((spriteScanline[i].id & 0xFE) << 4)
                                 | ((scanline - spriteScanline[i].y) & 0x07);
                         }
                         else
                         { // bottom half
-                            sprite_pattern_addr_lo = 
+                            sprite_pattern_addr_lo =
                                 ((spriteScanline[i].id & 0x01) << 12)
                                 | (((spriteScanline[i].id & 0xFE) + 1) << 4)
                                 | ((scanline - spriteScanline[i].y) & 0x07);
@@ -378,14 +378,14 @@ void Ppu2C02::clock()
                     { // Sprite flipper vertically
                         if(scanline - spriteScanline[i].y < 8)
                         { // top half
-                            sprite_pattern_addr_lo = 
+                            sprite_pattern_addr_lo =
                                 ((spriteScanline[i].id & 0x01) << 12)
                                 | ((spriteScanline[i].id & 0xFE) << 4)
                                 | ((7 - (scanline - spriteScanline[i].y)) & 0x07);
                         }
                         else
                         { // bottom half
-                            sprite_pattern_addr_lo = 
+                            sprite_pattern_addr_lo =
                                 ((spriteScanline[i].id & 0x01) << 12)
                                 | (((spriteScanline[i].id & 0xFE) + 1) << 4)
                                 | ((7 - (scanline - spriteScanline[i].y)) & 0x07);

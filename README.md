@@ -1,7 +1,7 @@
 # NESEmulator
 
 Inspiré par la série de vidéos de `javidx9` "NES Emulator From Scratch" https://www.youtube.com/playlist?list=PLrOv9FMX8xJHqMvSGB_9G9nZZ_4IgteYf
- 
+
 # Build
 
 A partir de la racine du projet :

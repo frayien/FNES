@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-DemoCpu6502::DemoCpu6502() : 
+DemoCpu6502::DemoCpu6502() :
     PixelWindow(680*1.5, 480*1.5, "FNES"),
     gui(680,480)
 {
@@ -40,14 +40,14 @@ DemoCpu6502::DemoCpu6502() :
             bus.cpuWrite(offset++, byte);
         }
     }
-    
+
 
     bus.cpu.reset();
     bus.cpu.reg_PC = 0x0400;
 
     decompiled = bus.decompile(0x0000, 0xFFFF);
 }
- 
+
 DemoCpu6502::~DemoCpu6502()
 {
 }
@@ -68,7 +68,7 @@ void DemoCpu6502::step()
 
     auto it = decompiled.find(addr);
     if(it == decompiled.end()) return;
-    
+
     buffer[buffer_pos] = it->second;
     buffer_pos = (buffer_pos + 1) % 10;
     inst_nb++;
@@ -89,14 +89,14 @@ void DemoCpu6502::update()
         for(int i = 0; i<100000; i++) step();
     }
 
-    if(buffer_PC == bus.cpu.reg_PC && running) 
+    if(buffer_PC == bus.cpu.reg_PC && running)
     {
         for(int i = 0; i<10; ++i)
             std::cout << buffer[(buffer_pos + i) % 10] << std::endl;
         running = false;
     }
     buffer_PC = bus.cpu.reg_PC;
-    
+
     if(wasPressed(sf::Keyboard::R))
         bus.cpu.reset();
 

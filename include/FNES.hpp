@@ -4,9 +4,9 @@
  * @brief FNES main class
  * @version 0.1
  * @date 2020-11-01
- * 
+ *
  * @copyright Copyright (c) 2020
- * 
+ *
  */
 
 #pragma once

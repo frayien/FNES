@@ -25,7 +25,7 @@ class FNES : public PixelWindow
 public:
     FNES();
     ~FNES();
-    
+
     void draw();
 
     void drawRam(uint16_t x, uint16_t y, uint16_t page);
@@ -45,11 +45,11 @@ public:
 
     PixelCanvas gui;
 
-    #ifdef FNES_DUMP 
+    #ifdef FNES_DUMP
     sf::Clock clock;
     #endif // FNES_DUMP
 
-    Tile full_tile 
+    Tile full_tile
     {
         0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,
         0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF,

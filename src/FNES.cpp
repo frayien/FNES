@@ -22,6 +22,7 @@ FNES::FNES() :
     //cart = std::make_shared<Cartridge>("resources/AccuracyCoin.nes");
     //cart = std::make_shared<Cartridge>("resources/Super Mario Bros. (World).nes");
     //cart = std::make_shared<Cartridge>("resources/Donkey Kong (JU) [p1].nes");
+    //cart = std::make_shared<Cartridge>("resources/Chip 'n Dale - Rescue Rangers 2 (Europe).nes");
     //cart = std::make_shared<Cartridge>("resources/Ice Climber (USA, Europe).nes");
     //cart = std::make_shared<Cartridge>("resources/Duck Tales (USA).nes");
 

@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-Mapper_001::Mapper_001(const Cartridge & cartridge)
+Mapper_001::Mapper_001(Cartridge & cartridge)
 {
     switch(cartridge.submapper_number)
     {
@@ -17,7 +17,13 @@ Mapper_001::Mapper_001(const Cartridge & cartridge)
 
     // PRG-(NV)RAM
     uint32_t l_prg_ram_size = 0;
-    if(cartridge.prg_nvram_size == 0)
+    if(!cartridge.is_NES20_format)
+    { // Old NES format, prg_ram_is not specified in the header, fallback to 32KiB
+        prg_ram_kind = MemoryKind::RAM;
+        cartridge.prg_ram_size = 0x8000;
+        l_prg_ram_size = 0x8000;
+    }
+    else if(cartridge.prg_nvram_size == 0)
     { // RAM
         prg_ram_kind = MemoryKind::RAM;
         l_prg_ram_size = cartridge.prg_ram_size;

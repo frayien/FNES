@@ -88,14 +88,10 @@ Cartridge::Cartridge(std::string const& path)
     prg_ram_size   = prg_ram_shift_count          == 0 ? 0 : 64 << prg_ram_shift_count;
     chr_ram_size   = chr_ram_shift_count          == 0 ? 0 : 64 << chr_ram_shift_count;
     prg_nvram_size = prg_nvram_eeprom_shift_count == 0 ? 0 : 64 << prg_nvram_eeprom_shift_count;
-    chr_nvram_size = chr_ram_shift_count          == 0 ? 0 : 64 << chr_nvram_shift_count;
+    chr_nvram_size = chr_nvram_shift_count        == 0 ? 0 : 64 << chr_nvram_shift_count;
 
     prg_rom = std::make_unique<uint8_t[]>(prg_rom_size);
     chr_rom = std::make_unique<uint8_t[]>(chr_rom_size);
-    prg_ram = std::make_unique<uint8_t[]>(prg_ram_size);
-    chr_ram = std::make_unique<uint8_t[]>(chr_ram_size);
-    prg_nvram = std::make_unique<uint8_t[]>(prg_nvram_size);
-    chr_nvram = std::make_unique<uint8_t[]>(chr_nvram_size);
 
     // load trainer
     if(has_trainer)
@@ -114,6 +110,15 @@ Cartridge::Cartridge(std::string const& path)
     std::cout << "NES2.0 ? " << is_NES20_format << std::endl;
     std::cout << "Mapper " << mapper_number << std::endl;
     std::cout << "Submapper " << (int) submapper_number << std::endl;
+
+    switch (mapper_number)
+    {
+    case 0: mapper = std::make_shared<Mapper_000>(*this); break;
+    case 1: mapper = std::make_shared<Mapper_001>(*this); break;
+
+    default: throw std::runtime_error("Unsupported Mapper");
+    }
+
     std::cout << "PRG-ROM " << prg_rom_size << std::endl;
     std::cout << "CHR-ROM " << chr_rom_size << std::endl;
     std::cout << "PRG-RAM " << prg_ram_size << std::endl;
@@ -121,13 +126,10 @@ Cartridge::Cartridge(std::string const& path)
     std::cout << "PRG-NVRAM " << prg_nvram_size << std::endl;
     std::cout << "CHR-NVRAM " << chr_nvram_size << std::endl;
 
-    switch (mapper_number)
-    {
-    case 0: mapper = std::make_shared<Mapper_000>(*this); break;
-    case 1: mapper = std::make_shared<Mapper_001>(*this); break;
-
-    default: break;
-    }
+    prg_ram = std::make_unique<uint8_t[]>(prg_ram_size);
+    chr_ram = std::make_unique<uint8_t[]>(chr_ram_size);
+    prg_nvram = std::make_unique<uint8_t[]>(prg_nvram_size);
+    chr_nvram = std::make_unique<uint8_t[]>(chr_nvram_size);
 }
 
 Cartridge::~Cartridge()

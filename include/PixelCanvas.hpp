@@ -40,8 +40,8 @@ public:
     inline uint16_t getSizeX() const { return size_x; }
     inline uint16_t getSizeY() const { return size_y; }
 
-    inline const sf::Texture& getTexture() 
-    { 
+    inline const sf::Texture& getTexture()
+    {
         texture.update(image);
         return texture;
     }

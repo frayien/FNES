@@ -145,9 +145,9 @@ bool Cartridge::cpuRead(uint16_t addr, uint8_t& data)
     {
         switch(memory_kind)
         {
-        case MemoryKind::ROM:   data = prg_rom  [mapper_addr]; break;
-        case MemoryKind::RAM:   data = prg_ram  [mapper_addr]; break;
-        case MemoryKind::NVRAM: data = prg_nvram[mapper_addr]; break;
+        case MemoryKind::ROM:   data = prg_rom  [mapper_addr % prg_rom_size];   break;
+        case MemoryKind::RAM:   data = prg_ram  [mapper_addr % prg_ram_size];   break;
+        case MemoryKind::NVRAM: data = prg_nvram[mapper_addr % prg_nvram_size]; break;
         }
         return true;
     }
@@ -162,9 +162,9 @@ bool Cartridge::cpuWrite(uint16_t addr, uint8_t& data)
     {
         switch(memory_kind)
         {
-        case MemoryKind::ROM:   /* READ-ONLY */                break;
-        case MemoryKind::RAM:   prg_rom  [mapper_addr] = data; break;
-        case MemoryKind::NVRAM: prg_nvram[mapper_addr] = data; break;
+        case MemoryKind::ROM:   /* READ-ONLY */                                 break;
+        case MemoryKind::RAM:   prg_ram  [mapper_addr % prg_ram_size] = data;   break;
+        case MemoryKind::NVRAM: prg_nvram[mapper_addr % prg_nvram_size] = data; break;
         }
         return true;
     }
@@ -179,9 +179,9 @@ bool Cartridge::ppuRead(uint16_t addr, uint8_t& data)
     {
         switch(memory_kind)
         {
-        case MemoryKind::ROM:   data = chr_rom  [mapper_addr]; break;
-        case MemoryKind::RAM:   data = chr_ram  [mapper_addr]; break;
-        case MemoryKind::NVRAM: data = chr_nvram[mapper_addr]; break;
+        case MemoryKind::ROM:   data = chr_rom  [mapper_addr % chr_rom_size];   break;
+        case MemoryKind::RAM:   data = chr_ram  [mapper_addr % chr_ram_size];   break;
+        case MemoryKind::NVRAM: data = chr_nvram[mapper_addr % chr_nvram_size]; break;
         }
         return true;
     }
@@ -196,9 +196,9 @@ bool Cartridge::ppuWrite(uint16_t addr, uint8_t& data)
     {
         switch(memory_kind)
         {
-        case MemoryKind::ROM:   /* READ-ONLY */                break;
-        case MemoryKind::RAM:   chr_ram  [mapper_addr] = data; break;
-        case MemoryKind::NVRAM: chr_nvram[mapper_addr] = data; break;
+        case MemoryKind::ROM:   /* READ-ONLY */                                 break;
+        case MemoryKind::RAM:   chr_ram  [mapper_addr % chr_ram_size] = data;   break;
+        case MemoryKind::NVRAM: chr_nvram[mapper_addr % chr_nvram_size] = data; break;
         }
         return true;
     }

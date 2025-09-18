@@ -156,6 +156,16 @@ void Apu2A03::cpuWrite(uint16_t addr, uint8_t data)
     case 0x4017: // All, frame counter
         frame_counter_mode = (data & 0x80) > 0;
         interrupt_inhibit_flag = (data & 0x40) > 0;
+        if(frame_counter_mode) // 5-step mode
+        {
+            quarter_frame_clock = true;
+            half_frame_clock = true;
+        }
+        if(interrupt_inhibit_flag)
+        {
+            irq = false;
+        }
+        clear_frame_clock_counter_delayed = 1;
         break;
     }
 }
@@ -173,48 +183,88 @@ uint8_t Apu2A03::cpuRead(uint16_t addr)
         if(dmc.irq) data |= 0x40;
         if(irq    ) data |= 0x80;
 
-        irq = false;
+        clear_irq_delayed = 1;
     }
 
     return data;
 }
 void Apu2A03::clock()
 {
-    bool quarter_frame_clock = false;
-    bool half_frame_clock = false;
-
-    if(clock_counter % 6 == 0)
+    // Clock APU twice as fast to handler half APU cycle timings
+    if(clock_counter % 3 == 0)
     {
+        // Even & Odd (Get & Put) cycles
+        cycle_is_even = !cycle_is_even;
+
+        // Get
+        if(cycle_is_even)
+        {
+            if((clear_irq_delayed & 0x80) == 0)
+            {
+                --clear_irq_delayed;
+                if((clear_irq_delayed & 0x80) != 0)
+                {
+                    irq = false;
+                }
+            }
+
+            if((clear_frame_clock_counter_delayed & 0x80) == 0)
+            {
+                --clear_frame_clock_counter_delayed;
+                if((clear_frame_clock_counter_delayed & 0x80) != 0)
+                {
+                    frame_clock_counter = 0;
+                }
+            }
+        }
+
+        // Tick
         frame_clock_counter++;
 
-        if(frame_clock_counter == 3729)
+        // Timings are multiplied by two (half cycles)
+        switch(frame_clock_counter)
         {
+        case 3728*2+1: // Put (Odd)
             quarter_frame_clock = true;
-        }
-        else if (frame_clock_counter == 7457)
-        {
+            break;
+        case 7456*2+1: // Put
             quarter_frame_clock = true;
             half_frame_clock = true;
-        }
-        else if (frame_clock_counter == 11186)
-        {
+            break;
+        case 11185*2+1: // Put
             quarter_frame_clock = true;
-        }
-        else if (frame_clock_counter == 14916)
-        {
+            break;
+        case 14914*2: // Get
+            if(!frame_counter_mode) // 4-step mode
+            {
+                if(!interrupt_inhibit_flag) irq = true;
+            }
+            break;
+        case 14914*2+1: // Put
             if(!frame_counter_mode) // 4-step mode
             {
                 quarter_frame_clock = true;
                 half_frame_clock = true;
+                if(!interrupt_inhibit_flag) irq = true;
+            }
+            break;
+        case 14915*2: // Get
+            if(!frame_counter_mode) // 4-step mode
+            {
                 frame_clock_counter = 0;
                 if(!interrupt_inhibit_flag) irq = true;
             }
-        }
-        else if (frame_clock_counter == 18641)
-        {
+            break;
+        case 18640*2+1: // Put
+            // 5-step mode
             quarter_frame_clock = true;
             half_frame_clock = true;
+            break;
+        case 18641*2: // Get
+            // 5-step mode
             frame_clock_counter = 0;
+            break;
+        default: break;
         }
 
         if(quarter_frame_clock)
@@ -246,6 +296,9 @@ void Apu2A03::clock()
         dmc.update(this);
 
     }
+
+    quarter_frame_clock = false;
+    half_frame_clock = false;
     clock_counter++;
 
     if(audio_stream.needSample())
@@ -253,6 +306,7 @@ void Apu2A03::clock()
         audio_stream.push(getSample());
     }
 }
+
 void Apu2A03::reset()
 {
 

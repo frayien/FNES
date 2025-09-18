@@ -10,16 +10,34 @@ FNES::FNES() :
     setBackgroundColor(sf::Color(0x45467fFF));
     PixelCanvas::initFont();
 
+    //cart = std::make_shared<Cartridge>("resources/mmc1atest-0.01/mmc1atest-sn.nes");
     //cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K.nes");
+    //cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K_C32K.nes");
     //cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P128K_C32K_S8K.nes");
+    //cart = std::make_shared<Cartridge>("resources/holydiverbatman/testroms/M1_P512K_S32K.nes");
+
     //cart = std::make_shared<Cartridge>("resources/instr_misc.nes");
     //cart = std::make_shared<Cartridge>("resources/instr_timing.nes");
-    //cart = std::make_shared<Cartridge>("resources/apu_mixer/square.nes");
-    //cart = std::make_shared<Cartridge>("resources/full_palette/full_palette_alt.nes");
-    //cart = std::make_shared<Cartridge>("resources/instr_test-v5/official_only.nes");
+    //cart = std::make_shared<Cartridge>("resources/instr_test-v5/all_instrs.nes");
+    //cart = std::make_shared<Cartridge>("resources/cpu_dummy_reads.nes");
+    //cart = std::make_shared<Cartridge>("resources/cpu_exec_space/test_cpu_exec_space_apu.nes");
+    // cart = std::make_shared<Cartridge>("resources/cpu_flag_concurrency/test_cpu_flag_concurrency.nes");
+    //cart = std::make_shared<Cartridge>("resources/branch_timing_tests/3.Forward_Branch.nes");
     //cart = std::make_shared<Cartridge>("resources/nestest.nes");
+
+    //cart = std::make_shared<Cartridge>("resources/apu_mixer/dmc.nes");
+    //cart = std::make_shared<Cartridge>("resources/apu_mixer/noise.nes");
+    //cart = std::make_shared<Cartridge>("resources/apu_mixer/square.nes");
+    //cart = std::make_shared<Cartridge>("resources/apu_mixer/triangle.nes");
+    //cart = std::make_shared<Cartridge>("resources/apu_test.nes");
+    //cart = std::make_shared<Cartridge>("resources/apu_phase_reset.nes");
+
+    //cart = std::make_shared<Cartridge>("resources/full_palette/full_palette_alt.nes");
+    //cart = std::make_shared<Cartridge>("resources/nmi_sync/demo_pal.nes");
     //cart = std::make_shared<Cartridge>("resources/color_test.nes");
-     cart = std::make_shared<Cartridge>("resources/AccuracyCoin.nes");
+
+    cart = std::make_shared<Cartridge>("resources/AccuracyCoin.nes");
+
     //cart = std::make_shared<Cartridge>("resources/Super Mario Bros. (World).nes");
     //cart = std::make_shared<Cartridge>("resources/Donkey Kong (JU) [p1].nes");
     //cart = std::make_shared<Cartridge>("resources/Chip 'n Dale - Rescue Rangers 2 (Europe).nes");

@@ -83,10 +83,6 @@ void Bus::reset()
 
 void Bus::clock()
 {
-    ppu.clock();
-
-    apu.clock();
-
     if(system_clock_counter % 3 == 0)
     {
         if(dma_transfer)
@@ -120,19 +116,26 @@ void Bus::clock()
         else
         {
             cpu.clock();
+
+            if(cpu.completed())
+            {
+                if(apu.irq || apu.dmc.irq)
+                {
+                    cpu.irq();
+                }
+
+                if(ppu.nmi)
+                {
+                    ppu.nmi = false;
+                    cpu.nmi();
+                }
+            }
         }
     }
 
-    if(apu.irq || apu.dmc.irq)
-    {
-        cpu.irq();
-    }
+    ppu.clock();
 
-    if(ppu.nmi)
-    {
-        ppu.nmi = false;
-        cpu.nmi();
-    }
+    apu.clock();
 
     system_clock_counter++;
 }

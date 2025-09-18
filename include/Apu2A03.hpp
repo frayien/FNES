@@ -471,6 +471,7 @@ public:
     int16_t getPulse(float time, float freq, float);
 
     bool irq = false;
+    bool cycle_is_even = false;
 
 private:
     IBus* bus = nullptr;
@@ -478,8 +479,14 @@ private:
     uint32_t frame_clock_counter = 0;
     uint32_t clock_counter = 0;
 
+    bool quarter_frame_clock = false;
+    bool half_frame_clock = false;
+
     bool frame_counter_mode = 0;
     bool interrupt_inhibit_flag = 0;
+
+    uint8_t clear_irq_delayed = 0xFF;
+    uint8_t clear_frame_clock_counter_delayed = 0xFF;
 
 public:
     envelope pulse_1_envelope;
